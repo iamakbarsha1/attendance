@@ -9,8 +9,8 @@ router.post("/", async (req, res) => {
   var data = new roomSchema({
     roomName: req.body.roomName,
     totalStudents: req.body.totalStudents,
-  })
-})
+  });
+});
 
 router.get("/", (req, res) => {
   res.json("Router");

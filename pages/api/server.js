@@ -13,7 +13,7 @@ app.use(express.json());
 
 // Router
 const roomRouter = require("./router");
-app.use("/room", roomRouter);
+app.use("/signUp", roomRouter);
 
 // MongoDB Connecting
 mongoose.connect(
