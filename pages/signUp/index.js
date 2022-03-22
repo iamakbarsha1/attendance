@@ -1,89 +1,72 @@
 import React from "react";
+import axios from "axios";
 import { useState } from "react";
 import FormInput from "./section/FormInput";
 
 function SignUp() {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    regNo: "",
-    dept: "",
-    email: "",
-    phoneNo: "",
-    roomNo: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   fullName: "",
+  //   regNo: "",
+  //   dept: "",
+  //   email: "",
+  //   phoneNo: "",
+  //   roomNo: "",
+  // });
+  const [fullName, setFullName] = useState("");
+  const [regNo, setRegNo] = useState("");
+  const [dept, setDept] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [roomNo, setRoomNo] = useState("");
 
-  const inputs = [
-    {
-      id: 1,
-      name: "fullName",
-      type: "text",
-      placeholder: "Ex: Akbar Sha S",
-      label: "Full Name",
-    },
-    {
-      id: 2,
-      name: "regNo",
-      type: "text",
-      placeholder: "Ex: 1913181033035",
-      label: "Register Number",
-    },
-    {
-      id: 3,
-      name: "dept",
-      type: "text",
-      placeholder: "Ex: Department of BCA",
-      label: "Department",
-    },
-    {
-      id: 4,
-      name: "email",
-      type: "email",
-      placeholder: "Ex: akbarsha@gmail.com",
-      label: "Email",
-    },
-    {
-      id: 5,
-      name: "phoneNo",
-      type: "number",
-      placeholder: "Ex: 9941786918",
-      label: "Phone Number",
-    },
-    {
-      id: 6,
-      name: "roomNo",
-      type: "number",
-      placeholder: "Ex: 7",
-      label: "Room Number",
-    },
-  ];
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  // const handleChange = (e) => {
+  // setFormData({ ...formData, [e.target.name]: e.target.value });
+  //   setFullName(e.target.value);
+  //   setRegNo(e.target.value);
+  //   setDept(e.target.value);
+  //   setEmail(e.target.value);
+  //   setPhoneNo(e.target.value);
+  //   setRoomNo(e.target.value);
+  // };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  //   const payload = {
+  //     // [e.target.name]: e.target.value,
+  //     fullName: fullName,
+  //     regNo: regNo,
+  //     dept: dept,
+  //     email: email,
+  //     // phoneNo: phoneNo,
+  //     // roomNo: roomNo,
+  //   };
 
-    console.log(formData);
-  };
-
+  //   axios({
+  //     url: "http://localhost:1000/post/signUp",
+  //     method: "POST",
+  //     data: payload,
+  //   })
+  //     .then(() => {
+  //       console.log("Data has been sent SUCCESSfully");
+  //     })
+  //     .catch(() => {
+  //       console.log("Internal Server Error");
+  //     });
+  // };
+  // console.log(formData);
   return (
     <div>
-      <form onSubmit={handleSubmit} className="p-24">
+      <FormInput />
+      {/* <form onSubmit={handleSubmit} className="p-24">
         {inputs.map((input) => (
-          <FormInput
-            key={input.id}
-            {...input}
-            value={formData[input.name]}
-            handleChange={handleChange}
-          />
+          <FormInput key={input.id} {...input} handleChange={handleChange} />
         ))}
+        <FormInput />
         <button id="submit" className="bg-green-400">
           Submit
         </button>
-      </form>
+      </form> */}
     </div>
   );
 }
