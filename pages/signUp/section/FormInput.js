@@ -1,5 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+
+const baseURL = "http://localhost:1000";
+// const baseURL = axios.create({
+//   baseURL: "http://localhost:1000",
+// });
 
 export default function FormInput() {
   // const { inputProps, handleChange } = props;
@@ -10,6 +15,9 @@ export default function FormInput() {
   const [email, setEmail] = useState("");
   // const [phoneNo, setPhoneNo] = useState("");
   // const [roomNo, setRoomNo] = useState("");
+
+  const [users, setUsers] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("Error Retriving data");
 
   const HandleFullNameChange = (e) => {
     setFullName(e.target.value);
@@ -31,6 +39,30 @@ export default function FormInput() {
     setEmail("");
   };
 
+  // const getUsers = () => {};
+
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      // .get("http://localhost:1000/api/get/users")
+      // .get("/api/get/users")
+      // .get(`${baseURL}/get/users`)
+      .then((res) => {
+        const data = res.data;
+        setUsers(data);
+        console.log("Data has been received", data);
+      })
+      .catch((err) => {
+        console.log("Error in getUsers", err);
+      });
+    // .then((res) => {
+    //   console.log(res);
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -43,22 +75,27 @@ export default function FormInput() {
       // phoneNo: phoneNo,
       // roomNo: roomNo,
     };
+    console.log({ fullName, regNo, dept, email });
 
-    axios({
-      url: "http://localhost:1000/post/signUp",
-      method: "POST",
-      data: payload,
-    })
-      .then(() => {
-        console.log("Data has been sent SUCCESSfully");
+    // axios({
+    // url: `${baseURL}/api/post/signUp`,
+    //   url: "http://localhost:1000/api/post/signUp",
+    //   method: "POST",
+    //   data: payload,
+    // })
+    axios
+      .post(`${baseURL}/api/post/signUp`, payload)
+      .then((res) => {
+        // axios.get("http");
+        console.log("Data has been sent SUCCESSfully - handleSubmit", res);
         resetInputs();
       })
-      .catch(() => {
-        console.log("Internal Server Error");
+      .catch((err) => {
+        console.log("Internal Server Error - handleSubmit", err);
       });
   };
 
-  console.log(fullName);
+  // console.log(fullName);
 
   return (
     <div>
@@ -107,6 +144,20 @@ export default function FormInput() {
           Submit
         </button>
       </form>
+
+      <div>
+        Posts
+        {users.length ? (
+          users.map((user) => (
+            <div key={user.id}>
+              <h1>{user.name}</h1>
+            </div>
+          ))
+        ) : (
+          <div>{errorMsg}</div>
+        )}
+        {/* {errorMsg ? <div>{errorMsg}</div> : null} */}
+      </div>
     </div>
   );
 }
