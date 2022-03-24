@@ -43,10 +43,10 @@ export default function FormInput() {
 
   useEffect(() => {
     axios
-      .get("https://jsonplaceholder.typicode.com/users")
+      // .get("https://jsonplaceholder.typicode.com/users")
       // .get("http://localhost:1000/api/get/users")
       // .get("/api/get/users")
-      // .get(`${baseURL}/get/users`)
+      .get(`${baseURL}/api/get/all-users`)
       .then((res) => {
         const data = res.data;
         setUsers(data);
@@ -61,7 +61,7 @@ export default function FormInput() {
     // .catch((err) => {
     //   console.log(err);
     // });
-  }, []);
+  }, [setUsers]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -149,8 +149,11 @@ export default function FormInput() {
         Posts
         {users.length ? (
           users.map((user) => (
-            <div key={user.id}>
-              <h1>{user.name}</h1>
+            <div key={user._id}>
+              <h1>{user.fullName}</h1>
+              <h1>{user.regNo}</h1>
+              <h1>{user.email}</h1>
+              <h1>{user.createdAt}</h1>
             </div>
           ))
         ) : (
