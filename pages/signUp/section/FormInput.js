@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { useRouter } from "next/router";
+// import baseURL from "../../../Helpers/Globals";
 const baseURL = "http://localhost:1000";
+
 // const baseURL = axios.create({
 //   baseURL: "http://localhost:1000",
 // });
@@ -40,6 +42,7 @@ export default function FormInput() {
   };
 
   // const getUsers = () => {};
+  const router = useRouter();
 
   useEffect(() => {
     axios
@@ -62,6 +65,15 @@ export default function FormInput() {
     //   console.log(err);
     // });
   }, [setUsers]);
+
+  const deleteUser = (_id) => {
+    const newUsersAfterDeletion = users.filter((newUser) => {
+      return newUser._id !== _id;
+    });
+    setUsers(newUsersAfterDeletion);
+    console.log(_id);
+    console.log(newUsersAfterDeletion);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -92,6 +104,15 @@ export default function FormInput() {
       })
       .catch((err) => {
         console.log("Internal Server Error - handleSubmit", err);
+      });
+
+    axios
+      .get(`${baseURL}/api/get/user/:_id`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -146,14 +167,20 @@ export default function FormInput() {
       </form>
 
       <div>
-        Posts
-        {users.length ? (
+        Students
+        {users.length > 0 ? (
           users.map((user) => (
-            <div key={user._id}>
-              <h1>{user.fullName}</h1>
-              <h1>{user.regNo}</h1>
-              <h1>{user.email}</h1>
-              <h1>{user.createdAt}</h1>
+            <div className="">
+              <div key={user._id} className="flex">
+                <h1 onClick={() => router.push(`/user/${user._id}`)}>
+                  {user.fullName}
+                </h1>
+                <p className="bg-slate-400 text-red-700">{user._id}</p>
+                <h1>{user.regNo}</h1>
+                <h1>{user.email}</h1>
+                <h1>{user.createdAt}</h1>
+                <button onClick={() => deleteUser(user._id)}>Delete</button>
+              </div>
             </div>
           ))
         ) : (
