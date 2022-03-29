@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import FormInput from "./section/FormInput";
 
-function Signup() {
+function Create() {
   // const [formData, setFormData] = useState({
   //   fullName: "",
   //   regNo: "",
@@ -71,4 +71,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Create;

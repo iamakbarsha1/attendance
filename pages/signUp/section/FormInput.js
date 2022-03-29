@@ -96,7 +96,7 @@ export default function FormInput() {
     //   data: payload,
     // })
     axios
-      .post(`${baseURL}/api/post/signUp`, payload)
+      .post(`${baseURL}/api/post/add-user`, payload)
       .then((res) => {
         // axios.get("http");
         console.log("Data has been sent SUCCESSfully - handleSubmit", res);
@@ -106,14 +106,14 @@ export default function FormInput() {
         console.log("Internal Server Error - handleSubmit", err);
       });
 
-    axios
-      .get(`${baseURL}/api/get/user/:_id`)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios
+    //   .get(`${baseURL}/api/get/user/:_id`)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   // console.log(fullName);
@@ -124,7 +124,7 @@ export default function FormInput() {
         <div>
           <label>Full Name</label>
           <input
-            value={fullName}
+            // value={fullName}
             name={"fullName"}
             type={"text"}
             placeholder={"Ex: Akbar Sha S"}
@@ -134,7 +134,7 @@ export default function FormInput() {
         <div>
           <label>Register Number</label>
           <input
-            value={regNo}
+            // value={regNo}
             name={"regNo"}
             type={"text"}
             placeholder={"Ex: 1913181033035"}
@@ -145,7 +145,7 @@ export default function FormInput() {
           <label>Department</label>
           <input
             name={"dept"}
-            value={dept}
+            // value={dept}
             type="text"
             placeholder={"Ex: Department of BCA"}
             onChange={HandleDeptChange}
@@ -155,7 +155,7 @@ export default function FormInput() {
           <label>Email</label>
           <input
             name={"email"}
-            value={email}
+            // value={email}
             type="text"
             placeholder={"Ex: akbarsha@gmail.com"}
             onChange={HandleEmailChange}
