@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { notification } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
+
 // import baseURL from "../../../Helpers/Globals";
 const baseURL = "http://localhost:1000";
-
 // const baseURL = axios.create({
 //   baseURL: "http://localhost:1000",
 // });
-
 export default function FormInput() {
-  // const { inputProps, handleChange } = props;
-
   const [fullName, setFullName] = useState("");
   const [regNo, setRegNo] = useState("");
   const [dept, setDept] = useState("");
@@ -21,34 +20,31 @@ export default function FormInput() {
   const [users, setUsers] = useState([]);
   const [errorMsg, setErrorMsg] = useState("Error Retriving data");
 
-  const HandleFullNameChange = (e) => {
-    setFullName(e.target.value);
-  };
-  const HandleRegNoChange = (e) => {
-    setRegNo(e.target.value);
-  };
-  const HandleDeptChange = (e) => {
-    setDept(e.target.value);
-  };
-  const HandleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  // const HandleFullNameChange = (e) => {
+  //   setFullName(e.target.value);
+  // };
+  // const HandleRegNoChange = (e) => {
+  //   setRegNo(e.target.value);
+  // };
+  // const HandleDeptChange = (e) => {
+  //   setDept(e.target.value);
+  // };
+  // const HandleEmailChange = (e) => {
+  //   setEmail(e.target.value);
+  // };
 
-  const resetInputs = () => {
-    setFullName("");
-    setRegNo("");
-    setDept("");
-    setEmail("");
-  };
+  // const resetInputs = () => {
+  //   setFullName("");
+  //   setRegNo("");
+  //   setDept("");
+  //   setEmail("");
+  // };
 
   // const getUsers = () => {};
   const router = useRouter();
 
   useEffect(() => {
-    axios
-      // .get("https://jsonplaceholder.typicode.com/users")
-      // .get("http://localhost:1000/api/get/users")
-      // .get("/api/get/users")
+    axios // .get("https://jsonplaceholder.typicode.com/users") // .get("http://localhost:1000/api/get/users") // .get("/api/get/users")
       .get(`${baseURL}/api/get/all-users`)
       .then((res) => {
         const data = res.data;
@@ -58,13 +54,7 @@ export default function FormInput() {
       .catch((err) => {
         console.log("Error in getUsers", err);
       });
-    // .then((res) => {
-    //   console.log(res);
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
-  }, [setUsers]);
+  }, []);
 
   const deleteUser = (_id) => {
     const newUsersAfterDeletion = users.filter((newUser) => {
@@ -73,6 +63,13 @@ export default function FormInput() {
     setUsers(newUsersAfterDeletion);
     console.log(_id);
     console.log(newUsersAfterDeletion);
+  };
+
+  const openNotify = () => {
+    notification.success({
+      message: "Submitted Succesfully",
+      description: "Saved Successfully in Database",
+    });
   };
 
   const handleSubmit = (e) => {
@@ -87,24 +84,26 @@ export default function FormInput() {
       // phoneNo: phoneNo,
       // roomNo: roomNo,
     };
-    console.log({ fullName, regNo, dept, email });
-
-    // axios({
-    // url: `${baseURL}/api/post/signUp`,
-    //   url: "http://localhost:1000/api/post/signUp",
-    //   method: "POST",
-    //   data: payload,
-    // })
+    // console.log({ fullName, regNo, dept, email });
     axios
       .post(`${baseURL}/api/post/add-user`, payload)
       .then((res) => {
         // axios.get("http");
         console.log("Data has been sent SUCCESSfully - handleSubmit", res);
-        resetInputs();
+        notification.success({
+          message: "Submitted Succesfully",
+          description: "Saved Successfully in Database",
+          placement: "topRight",
+        });
       })
       .catch((err) => {
         console.log("Internal Server Error - handleSubmit", err);
       });
+
+    setFullName("");
+    setRegNo("");
+    setDept("");
+    setEmail("");
 
     // axios
     //   .get(`${baseURL}/api/get/user/:_id`)
@@ -116,11 +115,10 @@ export default function FormInput() {
     //   });
   };
 
-  // console.log(fullName);
-
   return (
     <div>
       <form onSubmit={handleSubmit} className="p-24">
+        <button onClick={openNotify}>Notify</button>
         <div>
           <label>Full Name</label>
           <input
@@ -128,7 +126,7 @@ export default function FormInput() {
             name={"fullName"}
             type={"text"}
             placeholder={"Ex: Akbar Sha S"}
-            onChange={HandleFullNameChange}
+            onChange={(e) => setFullName(e.target.value)}
           />
         </div>
         <div>
@@ -138,7 +136,7 @@ export default function FormInput() {
             name={"regNo"}
             type={"text"}
             placeholder={"Ex: 1913181033035"}
-            onChange={HandleRegNoChange}
+            onChange={(e) => setRegNo(e.target.value)}
           />
         </div>
         <div>
@@ -148,7 +146,7 @@ export default function FormInput() {
             // value={dept}
             type="text"
             placeholder={"Ex: Department of BCA"}
-            onChange={HandleDeptChange}
+            onChange={(e) => setDept(e.target.value)}
           />
         </div>
         <div>
@@ -158,7 +156,7 @@ export default function FormInput() {
             // value={email}
             type="text"
             placeholder={"Ex: akbarsha@gmail.com"}
-            onChange={HandleEmailChange}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <button id="submit" className="bg-green-400">
@@ -168,25 +166,54 @@ export default function FormInput() {
 
       <div>
         Students
-        {users.length > 0 ? (
-          users.map((user) => (
-            <div className="">
-              <div key={user._id} className="flex">
-                <h1 onClick={() => router.push(`/user/${user._id}`)}>
-                  {user.fullName}
-                </h1>
-                <p className="bg-slate-400 text-red-700">{user._id}</p>
-                <h1>{user.regNo}</h1>
-                <h1>{user.email}</h1>
-                <h1>{user.createdAt}</h1>
-                <button onClick={() => deleteUser(user._id)}>Delete</button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div>{errorMsg}</div>
-        )}
-        {/* {errorMsg ? <div>{errorMsg}</div> : null} */}
+        <table>
+          <thead>
+            <tr>
+              <th scope="col" className="w-4">
+                S. No
+              </th>
+              <th scope="col" className="w-56 text-center">
+                Full Name
+              </th>
+              <th scope="col" className="w-40 text-center">
+                Reg. No
+              </th>
+              <th scope="col" className="w-56 text-center">
+                Email
+              </th>
+              <th scope="col" className="w-56 text-center">
+                Created At
+              </th>
+              <th scope="col" className="w-40 text-center">
+                Update
+              </th>
+              <th scope="col" className="w-40 text-center">
+                Delete
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.length > 0 ? (
+              users.map((user, index) => (
+                <tr key={user._id}>
+                  <td className="w-56 text-center">{index + 1}</td>
+                  <td className="w-56 text-center">{user.fullName}</td>
+                  <td className="w-40 text-center">{user.regNo}</td>
+                  <td className="w-56 text-center">{user.email}</td>
+                  <td className="w-56 text-center">{user.createdAt}</td>
+                  <td className="w-40 text-center">
+                    <button onClick={() => deleteUser(user._id)}>Update</button>
+                  </td>
+                  <td className="w-40 text-center">
+                    <button onClick={() => deleteUser(user._id)}>Delete</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>{errorMsg}</tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
