@@ -6,7 +6,7 @@ import { message } from "antd";
 
 const baseURL = "http://localhost:1000";
 
-function Update() {
+function Update({ setSelectedUserData }) {
   const [userId, setUserId] = useState(null);
 
   const [fullName, setFullName] = useState("");

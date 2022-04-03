@@ -22,7 +22,7 @@ export default function FormInput() {
   const [errorMsg, setErrorMsg] = useState("Error Retriving data");
 
   const [selectedUserData, setSelectedUserData] = useState(null);
-  const [triggerUseEffect, setuseEffect] = useState(false);
+  const [triggerUseEffect, setUseEffect] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // const HandleFullNameChange = (e) => {
@@ -48,31 +48,8 @@ export default function FormInput() {
   // const getUsers = () => {};
   const router = useRouter();
 
-  useEffect(() => {
-    axios // .get("https://jsonplaceholder.typicode.com/users") // .get("http://localhost:1000/api/get/users") // .get("/api/get/users")
-      .get(`${baseURL}/api/get/all-users`)
-      .then((res) => {
-        const GetUsersData = res.data.data;
-        console.log(res.data.data);
-        // setUsers(...users, data);
-        setUsers(GetUsersData);
-        console.log("Data has been received", data);
-      })
-      .catch((err) => {
-        console.log("Error in getUsers", err);
-      });
-  }, [triggerUseEffect]);
-
-  const deleteUser = (_id) => {
-    const newUsersAfterDeletion = users.filter((newUser) => {
-      return newUser._id !== _id;
-    });
-    setUsers(newUsersAfterDeletion);
-    console.log(_id);
-    console.log(newUsersAfterDeletion);
-  };
-
-  const openNotify = () => {
+  const openNotify = (e) => {
+    e.preventDefault();
     notification.success({
       message: "Submitted Succesfully",
       description: "Saved Successfully in Database",
@@ -81,7 +58,6 @@ export default function FormInput() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const payload = {
       // [e.target.name]: e.target.value,
       fullName: fullName,
@@ -93,29 +69,29 @@ export default function FormInput() {
     };
     axios
       .post(`${baseURL}/api/post/add-user`, payload)
+
       .then((res) => {
-        // axios.get("http");
+        console.log(payload);
         console.log("Data has been sent SUCCESSfully - handleSubmit", res);
         notification.success({
           message: "Submitted Succesfully",
           description: "Saved Successfully in Database",
           placement: "topRight",
         });
-        setuseEffect(!triggerUseEffect);
+        setUseEffect(!triggerUseEffect);
+        setFullName("");
+        setRegNo("");
+        setDept("");
+        setEmail("");
       })
       .catch((err) => {
         console.log("Internal Server Error - handleSubmit", err);
-        notification.error({
-          message: "Error",
-          description: "Error in HandleSubmit - Axios POST",
-          placement: "topRight",
-        });
+        // notification.error({
+        //   message: "Error",
+        //   description: "Error in HandleSubmit - Axios POST",
+        //   placement: "topRight",
+        // });
       });
-
-    setFullName("");
-    setRegNo("");
-    setDept("");
-    setEmail("");
   };
 
   const updateHandler = (e) => {
@@ -124,27 +100,72 @@ export default function FormInput() {
     axios
       .put(`${baseURL}/api/update/all-users`, {
         id: selectedUserData._id,
-        updatedUserData: selectedUserData,
+        updatedData: selectedUserData,
       })
       .then((res) => {
         console.log(res);
         setIsModalVisible(false);
-        setuseEffect(!triggerUseEffect);
+        notification.success({
+          message: res.data.key,
+          description: res.data.data,
+          placement: "topRight",
+        });
+        setUseEffect(!triggerUseEffect);
       })
       .catch((err) => {
-        console.log("Error in updateHandler", err);
+        console.log(err);
+
+        setIsModalVisible(false);
+        notification.error({
+          message: "Error",
+          description: "Error in Updating the UserData",
+          placement: "topRight",
+        });
       });
-    console.log(selectedUserData);
+    // console.log(selectedUserData);
   };
+
+  useEffect(() => {
+    axios
+      .get(`${baseURL}/api/get/all-users`)
+      .then((res) => {
+        setUsers(res.data.data);
+        console.log("Data has been received");
+      })
+      .catch((err) => {
+        console.log("Error in getUsers", err);
+      });
+  }, [triggerUseEffect]);
+
+  const deleteUser = (id) => {
+    axios.delete(`${baseURL}/api/delete/all-user/${id}`).then((res) => {
+      console.log(`Item deleted with id is ${id}`);
+      notification.success({
+        message: "Deleted Successfully",
+        description: "User has been Deleted Successfully in Database",
+        placement: "topRight",
+      });
+      setUseEffect(!triggerUseEffect);
+    });
+  };
+
+  const UpdateHandler = (e) => {
+    e.preventDefault();
+    axios.put(`${baseURL}/api/update/all-users`, { data: _id });
+  };
+
+  // useEffect(() => {
+  //   deleteUser();
+  // }, [deleteUser]);
 
   return (
     <div>
-      <form onSubmit={() => handleSubmit} className="p-24">
+      <form onSubmit={handleSubmit} className="p-24">
         <button onClick={openNotify}>Notify</button>
         <div>
           <label>Full Name</label>
           <input
-            // value={fullName}
+            value={fullName}
             name={"fullName"}
             type={"text"}
             placeholder={"Ex: Akbar Sha S"}
@@ -154,7 +175,7 @@ export default function FormInput() {
         <div>
           <label>Register Number</label>
           <input
-            // value={regNo}
+            value={regNo}
             name={"regNo"}
             type={"text"}
             placeholder={"Ex: 1913181033035"}
@@ -165,7 +186,7 @@ export default function FormInput() {
           <label>Department</label>
           <input
             name={"dept"}
-            // value={dept}
+            value={dept}
             type="text"
             placeholder={"Ex: Department of BCA"}
             onChange={(e) => setDept(e.target.value)}
@@ -175,7 +196,7 @@ export default function FormInput() {
           <label>Email</label>
           <input
             name={"email"}
-            // value={email}
+            value={email}
             type="text"
             placeholder={"Ex: akbarsha@gmail.com"}
             onChange={(e) => setEmail(e.target.value)}
@@ -214,19 +235,21 @@ export default function FormInput() {
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="flex">
             {users.length > 0 ? (
               users.map((user, index) => (
-                <tr key={user._id}>
+                <tr key={user._id} className="">
                   <td className="w-56 text-center">{index + 1}</td>
                   <td className="w-56 text-center">{user.fullName}</td>
                   <td className="w-40 text-center">{user.regNo}</td>
                   <td className="w-56 text-center">{user.email}</td>
-                  <td className="w-56 text-center">{user.createdAt}</td>
+                  <td className="w-56 text-center">{user._id}</td>
+                  {/* <td className="w-56 text-center">{user.createdAt}</td> */}
                   <td className="w-40 text-center">
                     <button
                       onClick={() => {
                         setSelectedUserData(user);
+                        // router.push("/update");
                         setIsModalVisible(true);
                       }}
                     >
@@ -251,30 +274,87 @@ export default function FormInput() {
         onCancel={() => setIsModalVisible(false)}
         footer={[
           <Button
-            key="update"
+            key="close"
             type="primary"
             // loading={loading}
-            onClick={() => updateHandler}
+            onClick={() => setIsModalVisible(false)}
           >
-            Update
+            Close
           </Button>,
+          // <Button
+          //   key="update"
+          //   type="primary"
+          //   className="bg-red-400"
+          //   // loading={loading}
+          //   onClick={() => setIsModalVisible(false)}
+          // >
+          //   Update
+          // </Button>,
         ]}
       >
-        {console.log(selectedUserData)}
+        {/* {console.log(selectedUserData)} */}
         <section>
           <form onSubmit={updateHandler}>
-            <label>Full Name</label>
-            <input
-              type={"text"}
-              placeholder={"Ex: Akbar Sha S"}
-              onChange={(e) => {
-                setSelectedUserData({
-                  ...selectedUserData,
-                  fullName: e.target.value,
-                });
-              }}
-              value={selectedUserData !== null ? selectedUserData.fullName : ""}
-            />
+            <div>
+              <label>Full Name</label>
+              <input
+                type={"text"}
+                placeholder={"Ex: Akbar Sha S"}
+                onChange={(e) => {
+                  setSelectedUserData({
+                    ...selectedUserData,
+                    fullName: e.target.value,
+                  });
+                }}
+                value={
+                  selectedUserData !== null ? selectedUserData.fullName : ""
+                }
+              />
+            </div>
+            <div>
+              <label>Register Number</label>
+              <input
+                name={"regNo"}
+                type={"text"}
+                placeholder={"Ex: 1913181033035"}
+                onChange={(e) => {
+                  setSelectedUserData({
+                    ...selectedUserData,
+                    regNo: e.target.value,
+                  });
+                }}
+                value={selectedUserData !== null ? selectedUserData.regNo : ""}
+              />
+            </div>
+            <div>
+              <label>Department</label>
+              <input
+                type="text"
+                placeholder={"Ex: Department of BCA"}
+                onChange={(e) => {
+                  setSelectedUserData({
+                    ...selectedUserData,
+                    dept: e.target.value,
+                  });
+                }}
+                value={selectedUserData !== null ? selectedUserData.dept : ""}
+              />
+            </div>
+            <div>
+              <label>Email</label>
+              <input
+                name={"email"}
+                type="text"
+                placeholder={"Ex: akbarsha@gmail.com"}
+                onChange={(e) => {
+                  setSelectedUserData({
+                    ...selectedUserData,
+                    email: e.target.value,
+                  });
+                }}
+                value={selectedUserData !== null ? selectedUserData.email : ""}
+              />
+            </div>
             <button>Update</button>
           </form>
         </section>
