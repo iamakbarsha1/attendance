@@ -13,10 +13,10 @@ const baseURL = "http://localhost:1000";
 export default function FormInput() {
   const [fullName, setFullName] = useState("");
   const [regNo, setRegNo] = useState("");
+  const [roomNo, setRoomNo] = useState("");
   const [dept, setDept] = useState("");
   const [email, setEmail] = useState("");
   // const [phoneNo, setPhoneNo] = useState("");
-  // const [roomNo, setRoomNo] = useState("");
 
   const [users, setUsers] = useState([]);
   const [errorMsg, setErrorMsg] = useState("Error Retriving data");
@@ -62,6 +62,7 @@ export default function FormInput() {
       // [e.target.name]: e.target.value,
       fullName: fullName,
       regNo: regNo,
+      roomNo: roomNo,
       dept: dept,
       email: email,
       // phoneNo: phoneNo,
@@ -73,16 +74,18 @@ export default function FormInput() {
       .then((res) => {
         console.log(payload);
         console.log("Data has been sent SUCCESSfully - handleSubmit", res);
+
+        setFullName("");
+        setRegNo("");
+        setRoomNo("");
+        setDept("");
+        setEmail("");
+        setUseEffect(!triggerUseEffect);
         notification.success({
           message: "Submitted Succesfully",
           description: "Saved Successfully in Database",
           placement: "topRight",
         });
-        setUseEffect(!triggerUseEffect);
-        setFullName("");
-        setRegNo("");
-        setDept("");
-        setEmail("");
       })
       .catch((err) => {
         console.log("Internal Server Error - handleSubmit", err);
@@ -137,22 +140,10 @@ export default function FormInput() {
       });
   }, [triggerUseEffect]);
 
-  const deleteUser = (id) => {
-    axios.delete(`${baseURL}/api/delete/all-user/${id}`).then((res) => {
-      console.log(`Item deleted with id is ${id}`);
-      notification.success({
-        message: "Deleted Successfully",
-        description: "User has been Deleted Successfully in Database",
-        placement: "topRight",
-      });
-      setUseEffect(!triggerUseEffect);
-    });
-  };
-
-  const UpdateHandler = (e) => {
-    e.preventDefault();
-    axios.put(`${baseURL}/api/update/all-users`, { data: _id });
-  };
+  // const UpdateHandler = (e) => {
+  //   e.preventDefault();
+  //   axios.put(`${baseURL}/api/update/all-users`, { data: _id });
+  // };
 
   // useEffect(() => {
   //   deleteUser();
@@ -180,6 +171,16 @@ export default function FormInput() {
             type={"text"}
             placeholder={"Ex: 1913181033035"}
             onChange={(e) => setRegNo(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Room Number</label>
+          <input
+            value={roomNo}
+            name={"roomNo"}
+            type={"number"}
+            placeholder={"Ex: 70"}
+            onChange={(e) => setRoomNo(e.target.value)}
           />
         </div>
         <div>
@@ -235,7 +236,7 @@ export default function FormInput() {
               </th>
             </tr>
           </thead>
-          <tbody className="flex">
+          <tbody className="">
             {users.length > 0 ? (
               users.map((user, index) => (
                 <tr key={user._id} className="">
@@ -324,6 +325,21 @@ export default function FormInput() {
                   });
                 }}
                 value={selectedUserData !== null ? selectedUserData.regNo : ""}
+              />
+            </div>
+            <div>
+              <label>Room Number</label>
+              <input
+                name={"roomNo"}
+                type={"Number"}
+                placeholder={"Ex: 70"}
+                onChange={(e) => {
+                  setSelectedUserData({
+                    ...selectedUserData,
+                    roomNo: e.target.value,
+                  });
+                }}
+                value={selectedUserData !== null ? selectedUserData.roomNo : ""}
               />
             </div>
             <div>

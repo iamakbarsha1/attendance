@@ -19,7 +19,7 @@ function NavBar() {
       {/* Left */}
       <div className="relative flex justify-center items-center">
         <HiMenuAlt2
-          className="md:hidden h-6 w-6"
+          className=" h-6 w-6"
           // className={showNavbar ? "-left-20" : null}
           onClick={() => setShowNavbar(!showNavbar)}
         />
