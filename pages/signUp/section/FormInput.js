@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { notification } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { Modal, Button } from "antd";
+import { AiOutlinePlus } from "react-icons/ai";
+import { BiPlus } from "react-icons/bi";
 
 // import baseURL from "../../../Helpers/Globals";
 const baseURL = "http://localhost:1000";
@@ -19,11 +21,13 @@ export default function FormInput() {
   // const [phoneNo, setPhoneNo] = useState("");
 
   const [users, setUsers] = useState([]);
+  const [allRooms, setAllRooms] = useState([]);
   const [errorMsg, setErrorMsg] = useState("Error Retriving data");
 
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [triggerUseEffect, setUseEffect] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAddStudentModalVisible, setAddStudentModalVisible] = useState(false);
 
   // const HandleFullNameChange = (e) => {
   //   setFullName(e.target.value);
@@ -140,6 +144,18 @@ export default function FormInput() {
       });
   }, [triggerUseEffect]);
 
+  useEffect(() => {
+    axios
+      .get(`${baseURL}/api/get/rooms`)
+      .then((res) => {
+        // console.log(res.data.data);
+        setAllRooms(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [triggerUseEffect]);
+  console.log(allRooms);
   // const UpdateHandler = (e) => {
   //   e.preventDefault();
   //   axios.put(`${baseURL}/api/update/all-users`, { data: _id });
@@ -151,62 +167,92 @@ export default function FormInput() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="p-24">
-        <button onClick={openNotify}>Notify</button>
-        <div>
-          <label>Full Name</label>
-          <input
-            value={fullName}
-            name={"fullName"}
-            type={"text"}
-            placeholder={"Ex: Akbar Sha S"}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Register Number</label>
-          <input
-            value={regNo}
-            name={"regNo"}
-            type={"text"}
-            placeholder={"Ex: 1913181033035"}
-            onChange={(e) => setRegNo(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Room Number</label>
-          <input
-            value={roomNo}
-            name={"roomNo"}
-            type={"number"}
-            placeholder={"Ex: 70"}
-            onChange={(e) => setRoomNo(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Department</label>
-          <input
-            name={"dept"}
-            value={dept}
-            type="text"
-            placeholder={"Ex: Department of BCA"}
-            onChange={(e) => setDept(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Email</label>
-          <input
-            name={"email"}
-            value={email}
-            type="text"
-            placeholder={"Ex: akbarsha@gmail.com"}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <button id="submit" className="bg-green-400">
-          Submit
-        </button>
-      </form>
+      <main>
+        <section>Dashboard</section>
+        <section className="flex">
+          <div>Students</div>
+          <div
+            className="border-[1px] flex cursor-pointer"
+            onClick={() => {
+              setAddStudentModalVisible(!isAddStudentModalVisible);
+            }}
+          >
+            <div>
+              <BiPlus className="h-6 w-6" />
+            </div>
+            <div>Add Student</div>
+          </div>
+
+          <div>
+            {isAddStudentModalVisible && (
+              <form onSubmit={handleSubmit} className="p-24">
+                <button onClick={openNotify}>Notify</button>
+                <div>
+                  <label>Full Name</label>
+                  <input
+                    value={fullName}
+                    name={"fullName"}
+                    type={"text"}
+                    placeholder={"Ex: Akbar Sha S"}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label>Register Number</label>
+                  <input
+                    value={regNo}
+                    name={"regNo"}
+                    type={"text"}
+                    placeholder={"Ex: 1913181033035"}
+                    onChange={(e) => setRegNo(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label>Room Number</label>
+                  {/* <input
+                    value={roomNo}
+                    name={"roomNo"}
+                    type={"number"}
+                    placeholder={"Ex: 70"}
+                    onChange={(e) => setRoomNo(e.target.value)}
+                  /> */}
+                  <select
+                    value={roomNo}
+                    onChange={(e) => setRoomNo(e.target.value)}
+                  >
+                    {allRooms.map((room, index) => {
+                      <option value={room.roomNo}>{room.createdAt}</option>;
+                    })}
+                  </select>
+                </div>
+                <div>
+                  <label>Department</label>
+                  <input
+                    name={"dept"}
+                    value={dept}
+                    type="text"
+                    placeholder={"Ex: Department of BCA"}
+                    onChange={(e) => setDept(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label>Email</label>
+                  <input
+                    name={"email"}
+                    value={email}
+                    type="text"
+                    placeholder={"Ex: akbarsha@gmail.com"}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <button id="submit" className="bg-green-400">
+                  Submit
+                </button>
+              </form>
+            )}
+          </div>
+        </section>
+      </main>
 
       <div>
         Students
