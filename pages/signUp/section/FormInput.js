@@ -4,8 +4,12 @@ import { useRouter } from "next/router";
 import { notification } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { Modal, Button } from "antd";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
 import { BiPlus } from "react-icons/bi";
+import { FiEdit3 } from "react-icons/fi";
+// import StudentPic from "../../../Helpers/images/studentPicSVG.svg";
+import Student from "../../../src/Helpers/images/studentPicSVG.svg";
+import Image from "next/image";
 
 // import baseURL from "../../../Helpers/Globals";
 const baseURL = "http://localhost:1000";
@@ -51,7 +55,7 @@ export default function FormInput() {
 
   // const getUsers = () => {};
   const router = useRouter();
-
+  // console.log(users);
   const openNotify = (e) => {
     e.preventDefault();
     notification.success({
@@ -155,7 +159,7 @@ export default function FormInput() {
         console.log(err);
       });
   }, [triggerUseEffect]);
-  console.log(allRooms);
+  // console.log(allRooms);
   // const UpdateHandler = (e) => {
   //   e.preventDefault();
   //   axios.put(`${baseURL}/api/update/all-users`, { data: _id });
@@ -254,66 +258,82 @@ export default function FormInput() {
         </section>
       </main>
 
-      <div>
-        Students
-        <table>
-          <thead>
-            <tr>
-              <th scope="col" className="w-4">
-                S. No
-              </th>
-              <th scope="col" className="w-56 text-center">
-                Full Name
-              </th>
-              <th scope="col" className="w-40 text-center">
-                Reg. No
-              </th>
-              <th scope="col" className="w-56 text-center">
-                Email
-              </th>
-              <th scope="col" className="w-56 text-center">
-                Created At
-              </th>
-              <th scope="col" className="w-40 text-center">
-                Update
-              </th>
-              <th scope="col" className="w-40 text-center">
-                Delete
-              </th>
-            </tr>
-          </thead>
-          <tbody className="">
+      <main>
+        <section className="flex justify-between text-purple-600 text-white px-3 py-2 font-medium">
+          <section>
+            <div>Student List</div>
+            <div className="font-medium">
+              Manage all your students right here!
+            </div>
+          </section>
+          <section className="flex items-center justify-center">
+            <div
+              className="flex border-[1px] border-purple-600 p-1 rounded-lg cursor-pointer"
+              onClick={() => {
+                setAddStudentModalVisible(!isAddStudentModalVisible);
+              }}
+            >
+              <div>
+                <BiPlus className="h-6 w-6" />
+              </div>
+              <div>Add Student</div>
+            </div>
+          </section>
+        </section>
+        <section className="m-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {users.length > 0 ? (
               users.map((user, index) => (
-                <tr key={user._id} className="">
-                  <td className="w-56 text-center">{index + 1}</td>
-                  <td className="w-56 text-center">{user.fullName}</td>
-                  <td className="w-40 text-center">{user.regNo}</td>
-                  <td className="w-56 text-center">{user.email}</td>
-                  <td className="w-56 text-center">{user._id}</td>
-                  {/* <td className="w-56 text-center">{user.createdAt}</td> */}
-                  <td className="w-40 text-center">
-                    <button
-                      onClick={() => {
-                        setSelectedUserData(user);
-                        // router.push("/update");
-                        setIsModalVisible(true);
-                      }}
-                    >
-                      Update
-                    </button>
-                  </td>
-                  <td className="w-40 text-center">
-                    <button onClick={() => deleteUser(user._id)}>Delete</button>
-                  </td>
-                </tr>
+                <div
+                  key={user._id}
+                  className="relative justify-between border-[1px] rounded-xl m-[2px] p-[5px] "
+                >
+                  <section className="flex">
+                    {/* <Image src={Student} /> */}
+                    <div className="w-20 h-20 bg-purple-600 rounded-full"></div>
+                    <div className="ml-2 ">
+                      <div className="font-medium">{user.fullName}</div>
+                      <div className="">{user.regNo}</div>
+                      <div className="text-green-700">{user.roomNo}</div>
+                    </div>
+                  </section>
+                  <section>
+                    <div className="">{user.email}</div>
+                  </section>
+                  <section>
+                    {/* <div>
+                      <div className=" text-center">{index + 1}</div>
+                    </div> */}
+
+                    {/* <div className="w-56 text-center">{user._id}</div> */}
+                    {/* <td className="w-56 text-center">{user.createdAt}</td> */}
+                    <div className="absolute top-0 right-0  flex">
+                      <div className="">
+                        <button
+                          onClick={() => {
+                            setSelectedUserData(user);
+                            // router.push("/update");
+                            setIsModalVisible(true);
+                          }}
+                        >
+                          <FiEdit3 />
+                        </button>
+                      </div>
+                      <div className="">
+                        <button onClick={() => deleteUser(user._id)}>
+                          <AiOutlineDelete />
+                        </button>
+                      </div>
+                    </div>
+                  </section>
+                </div>
               ))
             ) : (
-              <tr>{errorMsg}</tr>
+              <div>{errorMsg}</div>
             )}
-          </tbody>
-        </table>
-      </div>
+          </div>
+        </section>
+      </main>
 
       <Modal
         title="Update Student"
@@ -387,6 +407,13 @@ export default function FormInput() {
                 }}
                 value={selectedUserData !== null ? selectedUserData.roomNo : ""}
               />
+              <select value={""}>
+                {allRooms.map((room) => {
+                  <option value={room.roomNo}>{room.roomNo}</option>;
+                })}
+                {/* <option value={"room2"}>Room 2</option>
+                <option value={"room3"}>Room 3</option> */}
+              </select>
             </div>
             <div>
               <label>Department</label>
@@ -424,6 +451,64 @@ export default function FormInput() {
     </div>
   );
 }
+
+// <table>
+// <thead>
+//   <tr>
+//     <th scope="col" className="w-4">
+//       S. No
+//     </th>
+//     <th scope="col" className="w-56 text-center">
+//       Full Name
+//     </th>
+//     <th scope="col" className="w-40 text-center">
+//       Reg. No
+//     </th>
+//     <th scope="col" className="w-56 text-center">
+//       Email
+//     </th>
+//     <th scope="col" className="w-56 text-center">
+//       Created At
+//     </th>
+//     <th scope="col" className="w-40 text-center">
+//       Update
+//     </th>
+//     <th scope="col" className="w-40 text-center">
+//       Delete
+//     </th>
+//   </tr>
+// </thead>
+// <tbody className="">
+//   {users.length > 0 ? (
+//     users.map((user, index) => (
+//       <tr key={user._id} className="">
+//         <td className="w-56 text-center">{index + 1}</td>
+//         <td className="w-56 text-center">{user.fullName}</td>
+//         <td className="w-40 text-center">{user.regNo}</td>
+//         <td className="w-56 text-center">{user.email}</td>
+//         <td className="w-56 text-center">{user._id}</td>
+//         {/* <td className="w-56 text-center">{user.createdAt}</td> */}
+//         <td className="w-40 text-center">
+//           <button
+//             onClick={() => {
+//               setSelectedUserData(user);
+//               // router.push("/update");
+//               setIsModalVisible(true);
+//             }}
+//           >
+//             Update
+//           </button>
+//         </td>
+//         <td className="w-40 text-center">
+//           <button onClick={() => deleteUser(user._id)}>Delete</button>
+//         </td>
+//       </tr>
+//     ))
+//   ) : (
+//     <tr>{errorMsg}</tr>
+//   )}
+// </tbody>
+// </table>
 
 // import { Modal, Button } from 'antd';
 

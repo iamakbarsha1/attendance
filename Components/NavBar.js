@@ -14,7 +14,7 @@ function NavBar() {
   return (
     <div
       className="flex justify-between px-3 py-2 bg-slate-400  md:bg-red-300 lg:bg-green-400"
-      onBlur={() => setShowNavbar(!showNavbar)}
+      // onBlur={() => setShowNavbar(!showNavbar)}
     >
       {/* Left */}
       <div className="relative flex justify-center items-center">
@@ -26,8 +26,8 @@ function NavBar() {
         <div
           className={
             showNavbar
-              ? `absolute -top-2 -left-3 flex-row w-72 p-4 bg-white transition-all ease-in-out duration-500`
-              : `absolute -top-2 -left-80 w-72 bg-white transition-all ease-in-out duration-500`
+              ? `absolute -top-2 -left-3 flex-row h-screen z-50 w-72 p-4 bg-white transition-all ease-in-out duration-500`
+              : `absolute -top-2 -left-80 flex-row h-screen z-50 w-72 p-4 bg-white transition-all ease-in-out duration-500`
             //   `absolute top-0 -left-0 w-72 bg-white -translate-x-80`
             // : `absolute top-0 -left-80 w-72 bg-white translate-x-0`
           }
