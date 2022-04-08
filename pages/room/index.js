@@ -1,7 +1,7 @@
 import { notification } from "antd";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { baseURL } from "../../Helpers/Globals";
+import { baseURL } from "../../src/Helpers/Globals";
 
 function Room() {
   const [roomNo, setRoomNo] = useState("");

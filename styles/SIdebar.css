@@ -1,0 +1,18 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+/* @layer components {
+   .ant-menu-item, .ant-menu-item-selected {
+      @apply 
+         bg-purple-500
+      
+} */
+
+/* } */
+.ant-menu-item, .ant-menu-item-selected {
+}
+span .ant-menu-title-content {
+   display: flex;
+   background-color: brown;
+}

@@ -259,7 +259,7 @@ export default function FormInput() {
       </main>
 
       <main>
-        <section className="flex justify-between text-purple-600 text-white px-3 py-2 font-medium">
+        <section className="flex justify-between text-purple-600 px-3 py-2 font-medium">
           <section>
             <div>Student List</div>
             <div className="font-medium">
