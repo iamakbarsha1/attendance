@@ -2,6 +2,7 @@ import React from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { BiDoorOpen } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import { Menu } from "antd";
 import { useState } from "react";
@@ -9,15 +10,17 @@ import { useRouter } from "next/router";
 
 function NavBar() {
   const [showNavbar, setShowNavbar] = useState(false);
+  const [showStudentsMenu, setShowStudentsMenu] = useState(false);
+
   const router = useRouter();
 
   return (
     <div
-      className="flex justify-between px-3 py-2 bg-slate-400  md:bg-red-300 lg:bg-green-400"
+      className="flex justify-between px-3 py-2 md:py-4 lg:py-5 bg-slate-400 md:bg-red-300 lg:bg-green-400 shadow-md"
       // onBlur={() => setShowNavbar(!showNavbar)}
     >
       {/* Left */}
-      <div className="relative flex justify-center items-center">
+      <div className="lg:hidden relative flex justify-center items-center">
         <HiMenuAlt2
           className=" h-6 w-6"
           // className={showNavbar ? "-left-20" : null}
@@ -103,9 +106,43 @@ function NavBar() {
         </Menu> */}
       </div>
       {/* Middle */}
-      <div className="font-bold text-base ">Practice</div>
-      {/* Right */}
-      <div>Three-Dots</div>
+      <div className="font-bold text-base flex items-center">Practice</div>
+
+      <div className="flex">
+        <div className="hidden lg:flex">
+          <div className="flex items-center justify-evenly font-medium text-base">
+            <div className="cursor-pointer">Home</div>
+            <div className="group">
+              <div
+                onMouseEnter={() => setShowStudentsMenu(true)}
+                onMouseLeave={() => setShowStudentsMenu(false)}
+                className="lg:relative lg:cursor-pointer hover:text-yellow-600 ml-10 "
+              >
+                <div>Students</div>
+              </div>
+              {/* <section className="lg:hidden group-hover:block lg:absolute lg:top-16 bg-slate-400"> */}
+              {showStudentsMenu ? (
+                <section className=" lg:absolute lg:top-16 bg-slate-400">
+                  <div>Add Student</div>
+                  <div>Add Student</div>
+                  <div>Add Student</div>
+                  <div>Add Student</div>
+                  <div>Add Student</div>
+                </section>
+              ) : (
+                ""
+              )}
+            </div>
+
+            <div className="lg:ml-10 cursor-pointer">Rooms</div>
+            <div className="lg:ml-10 cursor-pointer">Reports</div>
+          </div>
+        </div>
+        {/* Right */}
+        <div className="lg:ml-20">
+          <BiDotsVerticalRounded className="h-6 w-6" />
+        </div>
+      </div>
     </div>
   );
 }
