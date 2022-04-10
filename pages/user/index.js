@@ -5,10 +5,12 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useMediaQuery, makeStyles } from "@mui/material";
 
 import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
 import { FiEdit3 } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
+import { MdClose } from "react-icons/md";
 
 import { notification } from "antd";
 // import { Modal, Button } from "antd";
@@ -22,6 +24,11 @@ import Typography from "@mui/material/Typography";
 const baseURL = "http://localhost:1000";
 
 function User() {
+  const is770pxBelow = useMediaQuery("(max-width:770px)");
+  const is430pxBelow = useMediaQuery("(max-width:430px)");
+  const is380pxBelow = useMediaQuery("(max-width:380px)");
+  const is320pxBelow = useMediaQuery("(max-width:320px)");
+
   const [fullName, setFullName] = useState("");
   const [regNo, setRegNo] = useState("");
   const [roomNo, setRoomNo] = useState("");
@@ -48,18 +55,20 @@ function User() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: is770pxBelow
+      ? is430pxBelow
+        ? is380pxBelow
+          ? is320pxBelow
+            ? 300
+            : 330
+          : 350
+        : 600
+      : 700,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    borderRadius: 3,
     boxShadow: 24,
-    p: 4,
+    p: is430pxBelow ? 3 : 4,
   };
-  // const [fullName, setFullName] = useState("");
-  // const [regNo, setRegNo] = useState("");
-  // const [dept, setDept] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phoneNo, setPhoneNo] = useState("");
-  // const [roomNo, setRoomNo] = useState("");
 
   const router = useRouter();
 
@@ -211,22 +220,27 @@ function User() {
             aria-labelledby="keep-mounted-modal-title"
             aria-describedby="keep-mounted-modal-description"
           >
-            <Box sx={style}>
+            <Box sx={style} className="relative">
               <section>
                 <div>
-                  <form onSubmit={handleSubmit} className="p-24">
+                  <form onSubmit={handleSubmit} className="space-y-3">
                     {/* <button onClick={openNotify}>Notify</button> */}
-                    <div>
+                    <div className="absolute top-3 right-3 rounded-full hover:bg-purple-700 ">
+                      <MdClose className="h-7 w-7 text-purple-700 hover:text-white p-1" />
+                    </div>
+                    <div className="space-y-1">
                       <label>Full Name</label>
                       <input
+                        required
                         value={fullName}
                         name={"fullName"}
                         type={"text"}
                         placeholder={"Ex: Akbar Sha S"}
                         onChange={(e) => setFullName(e.target.value)}
+                        className="rounded-md w-full focus:border-purple-700 "
                       />
                     </div>
-                    <div>
+                    <div className="space-y-1">
                       <label>Register Number</label>
                       <input
                         value={regNo}
@@ -234,10 +248,12 @@ function User() {
                         type={"text"}
                         placeholder={"Ex: 1913181033035"}
                         onChange={(e) => setRegNo(e.target.value)}
+                        className="rounded-md w-full focus:border-purple-700 "
                       />
                     </div>
-                    <div>
+                    <div className="space-y-1">
                       <label>Room Number</label>
+                      <br></br>
                       {/* <input
                     value={roomNo}
                     name={"roomNo"}
@@ -248,13 +264,14 @@ function User() {
                       <select
                         value={roomNo}
                         onChange={(e) => setRoomNo(e.target.value)}
+                        className="rounded-md w-full focus:border-purple-700 "
                       >
                         {/* {allRooms.map((room, index) => { */}
                         {/* <option value={room.roomNo}>{room.createdAt}</option>; */}
                         {/* // })} */}
                       </select>
                     </div>
-                    <div>
+                    <div className="space-y-1">
                       <label>Department</label>
                       <input
                         name={"dept"}
@@ -262,9 +279,10 @@ function User() {
                         type="text"
                         placeholder={"Ex: Department of BCA"}
                         onChange={(e) => setDept(e.target.value)}
+                        className="rounded-md w-full focus:border-purple-700 "
                       />
                     </div>
-                    <div>
+                    <div className="space-y-1">
                       <label>Email</label>
                       <input
                         name={"email"}
@@ -272,9 +290,13 @@ function User() {
                         type="text"
                         placeholder={"Ex: akbarsha@gmail.com"}
                         onChange={(e) => setEmail(e.target.value)}
+                        className="rounded-md w-full focus:border-purple-700 "
                       />
                     </div>
-                    <button id="submit" className="bg-green-400">
+                    <button
+                      id="submit"
+                      className="w-full p-2 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
+                    >
                       Submit
                     </button>
                   </form>

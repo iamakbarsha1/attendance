@@ -3,7 +3,7 @@ import Image from "next/image";
 import NavBar from "../Components/NavBar";
 import styles from "../styles/Home.module.css";
 import Create from "./signUp/index";
-import "flowbite";
+// import "flowbite";
 
 export default function Home() {
   return (
@@ -18,7 +18,6 @@ export default function Home() {
           <Create />
         </div>
       </main>
-
     </div>
   );
 }
