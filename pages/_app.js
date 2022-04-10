@@ -11,6 +11,8 @@ function MyApp({ Component, pageProps }) {
         {/* <Sidebar /> */}
         <Component {...pageProps} />
       </div>
+
+      <script src="../path/to/flowbite/dist/flowbite.js"></script>
     </div>
   );
 }

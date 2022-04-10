@@ -6,18 +6,54 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
+import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
+import { FiEdit3 } from "react-icons/fi";
+import { BiPlus } from "react-icons/bi";
+
 import { notification } from "antd";
-import { Modal, Button } from "antd";
+// import { Modal, Button } from "antd";
+
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+// import "flowbite";
 // import baseURL from "../../Helpers/Globals";
 const baseURL = "http://localhost:1000";
 
 function User() {
+  const [fullName, setFullName] = useState("");
+  const [regNo, setRegNo] = useState("");
+  const [roomNo, setRoomNo] = useState("");
+  const [dept, setDept] = useState("");
+  const [email, setEmail] = useState("");
+  // const [phoneNo, setPhoneNo] = useState("");
+
   const [users, setUsers] = useState([]);
   const [errorMsg, setErrorMsg] = useState("Error Retriving data");
 
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [triggerUseEffect, setUseEffect] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
   // const [fullName, setFullName] = useState("");
   // const [regNo, setRegNo] = useState("");
   // const [dept, setDept] = useState("");
@@ -88,6 +124,47 @@ function User() {
     // console.log(selectedUserData);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const payload = {
+      // [e.target.name]: e.target.value,
+      fullName: fullName,
+      regNo: regNo,
+      roomNo: roomNo,
+      dept: dept,
+      email: email,
+      // phoneNo: phoneNo,
+      // roomNo: roomNo,
+    };
+    axios
+      .post(`${baseURL}/api/post/add-user`, payload)
+
+      .then((res) => {
+        console.log(payload);
+        console.log("Data has been sent SUCCESSfully - handleSubmit", res);
+
+        setFullName("");
+        setRegNo("");
+        setRoomNo("");
+        setDept("");
+        setEmail("");
+        setUseEffect(!triggerUseEffect);
+        notification.success({
+          message: "Submitted Succesfully",
+          description: "Saved Successfully in Database",
+          placement: "topRight",
+        });
+      })
+      .catch((err) => {
+        console.log("Internal Server Error - handleSubmit", err);
+        // notification.error({
+        //   message: "Error",
+        //   description: "Error in HandleSubmit - Axios POST",
+        //   placement: "topRight",
+        // });
+      });
+  };
+
   useEffect(() => {
     axios
       .get(`${baseURL}/api/get/all-users`)
@@ -104,79 +181,308 @@ function User() {
   console.log(users);
 
   return (
-    <div>
-      <h1>Single User page</h1>
+    <div className="px-3 py-2 w-screen">
+      <section className="flex items-center justify-between">
+        <div className="font-medium text-xl text-purple-700">Students</div>
+        <div
+          className="border-[1px] p-1 flex cursor-pointer text-purple-700 border-purple-700 rounded-md"
+          // onClick={() => {
+          //   setAddStudentModalVisible(!isAddStudentModalVisible);
+          // }}
+        >
+          <div>
+            <BiPlus className="h-6 w-6" />
+          </div>
+          <div className="flex items-center">Add Student</div>
+        </div>
+        <label className="swap swap-rotate">
+          {/* <!-- this hidden checkbox controls the state --> */}
+          <input className="hidden" type="checkbox" />
+          {/* <!-- sun icon --> */}
+          <BiPlus className="swap-on fill-current w-10 h-10" />
+          <FiEdit3 className="swap-off fill-current w-10 h-10" />
+        </label>
+        <div>
+          <Button onClick={handleOpen}>Open modal</Button>
+          <Modal
+            keepMounted
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="keep-mounted-modal-title"
+            aria-describedby="keep-mounted-modal-description"
+          >
+            <Box sx={style}>
+              <section>
+                <div>
+                  <form onSubmit={handleSubmit} className="p-24">
+                    {/* <button onClick={openNotify}>Notify</button> */}
+                    <div>
+                      <label>Full Name</label>
+                      <input
+                        value={fullName}
+                        name={"fullName"}
+                        type={"text"}
+                        placeholder={"Ex: Akbar Sha S"}
+                        onChange={(e) => setFullName(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label>Register Number</label>
+                      <input
+                        value={regNo}
+                        name={"regNo"}
+                        type={"text"}
+                        placeholder={"Ex: 1913181033035"}
+                        onChange={(e) => setRegNo(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label>Room Number</label>
+                      {/* <input
+                    value={roomNo}
+                    name={"roomNo"}
+                    type={"number"}
+                    placeholder={"Ex: 70"}
+                    onChange={(e) => setRoomNo(e.target.value)}
+                  /> */}
+                      <select
+                        value={roomNo}
+                        onChange={(e) => setRoomNo(e.target.value)}
+                      >
+                        {/* {allRooms.map((room, index) => { */}
+                        {/* <option value={room.roomNo}>{room.createdAt}</option>; */}
+                        {/* // })} */}
+                      </select>
+                    </div>
+                    <div>
+                      <label>Department</label>
+                      <input
+                        name={"dept"}
+                        value={dept}
+                        type="text"
+                        placeholder={"Ex: Department of BCA"}
+                        onChange={(e) => setDept(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label>Email</label>
+                      <input
+                        name={"email"}
+                        value={email}
+                        type="text"
+                        placeholder={"Ex: akbarsha@gmail.com"}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <button id="submit" className="bg-green-400">
+                      Submit
+                    </button>
+                  </form>
+                </div>
+              </section>
+            </Box>
+          </Modal>
+        </div>
+        {/* <!-- The button to open modal --> */}
+        {/* <label for="my-modal-3" class="btn modal-button">
+          open modal
+        </label> */}
 
-      <section className="flex flex-wrap">
-        {/* {users.map((user) => {})} */}
-        {users.length > 0 ? (
-          users.map((user, index) => (
-            <tr key={user._id} className="">
-              <td className="w-56 text-center">{index + 1}</td>
-              <td className="w-56 text-center">{user.fullName}</td>
-              <td className="w-40 text-center">{user.regNo}</td>
-              <td className="w-56 text-center">{user.roomNo}</td>
-              <td className="w-56 text-center">{user.email}</td>
-              <td className="w-56 text-center">{user._id}</td>
-              {/* <td className="w-56 text-center">{user.createdAt}</td> */}
-              <td className="w-40 text-center">
-                <button
-                  onClick={() => {
-                    setSelectedUserData(user);
-                    // router.push("/update");
-                    setIsModalVisible(true);
-                  }}
-                >
-                  Update
-                </button>
-              </td>
-              <td className="w-40 text-center">
-                <button onClick={() => deleteUser(user._id)}>Delete</button>
-              </td>
-            </tr>
-          ))
-        ) : (
-          <tr>{errorMsg}</tr>
-        )}
-        {/* {users.map((person) => {
-          return (
-            <div
-              key={person._id}
-              className="relative flex items-center flex-wrap border-2 rounded-lg m-2 w-96"
+        {/* <!-- Put this part before </body> tag --> */}
+        {/* <input type="checkbox" id="my-modal-3" class="modal-toggle" />
+        <div class="modal">
+          <div class="modal-box relative">
+            <label
+              for="my-modal-3"
+              class="btn btn-sm btn-circle absolute right-2 top-2"
             >
-              <div className="ml-5 flex items-center justify-center">
-                <img />
-                img
-              </div>
-              <div className="ml-10">
-                <h1>{person.fullName}</h1>
-                <h1>{person.regNo}</h1>
-              </div>
-              <div className="absolute top-0 right-0 border-[1px] rounded-full p-2">
+              ✕
+            </label>
+            <h3 class="text-lg font-bold">
+              Congratulations random Interner user!
+            </h3>
+            <p class="py-4">
+              You've been selected for a chance to get one year of subscription
+              to use Wikipedia for free!
+            </p>
+          </div>
+        </div> */}
+
+        {/* <button
+          class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button"
+          data-modal-toggle="authentication-modal"
+        >
+          Toggle modal
+        </button>
+
+        <div
+          id="authentication-modal"
+          tabindex="-1"
+          aria-hidden="true"
+          class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center"
+        >
+          <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              <div class="flex justify-end p-2">
                 <button
-                  onClick={() => deleteUser(person._id)}
-                  // onClick={() => setDeleteID(person._id)}
+                  type="button"
+                  class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                  data-modal-toggle="authentication-modal"
                 >
-                  Del
-                </button>
-                <button
-                  onClick={() =>
-                    setUpdateID(
-                      person._id,
-                      person.fullName,
-                      person.regNo,
-                      person.dept,
-                      person.email
-                    )
-                  }
-                  className="ml-2"
-                >
-                  Upd
+                  <svg
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
                 </button>
               </div>
+              <form
+                class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8"
+                action="#"
+              >
+                <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                  Sign in to our platform
+                </h3>
+                <div>
+                  <label
+                    for="email"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    Your email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                    placeholder="name@company.com"
+                    required=""
+                  />
+                </div>
+                <div>
+                  <label
+                    for="password"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    Your password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="••••••••"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                    required=""
+                  />
+                </div>
+                <div class="flex justify-between">
+                  <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                      <input
+                        id="remember"
+                        aria-describedby="remember"
+                        type="checkbox"
+                        class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+                        required=""
+                      />
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <label
+                        for="remember"
+                        class="font-medium text-gray-900 dark:text-gray-300"
+                      >
+                        Remember me
+                      </label>
+                    </div>
+                  </div>
+                  <a
+                    href="#"
+                    class="text-sm text-blue-700 hover:underline dark:text-blue-500"
+                  >
+                    Lost Password?
+                  </a>
+                </div>
+                <button
+                  type="submit"
+                  class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Login to your account
+                </button>
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                  Not registered?{" "}
+                  <a
+                    href="#"
+                    class="text-blue-700 hover:underline dark:text-blue-500"
+                  >
+                    Create account
+                  </a>
+                </div>
+              </form>
             </div>
-          );
-        })} */}
+          </div>
+        </div> */}
+      </section>
+
+      <section className="m-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {users.length > 0 ? (
+            users.map((user, index) => (
+              <div
+                key={user._id}
+                className="relative justify-between border-[1px] rounded-xl m-[2px] p-[5px] "
+              >
+                <section className="flex">
+                  {/* <Image src={Student} /> */}
+                  <div className="w-20 h-20 bg-purple-600 rounded-full"></div>
+                  <div className="ml-2 ">
+                    <div className="font-medium">{user.fullName}</div>
+                    <div className="">{user.regNo}</div>
+                    <div className="text-green-700">{user.roomNo}</div>
+                  </div>
+                </section>
+                <section>
+                  <div className="">{user.email}</div>
+                </section>
+                <section>
+                  {/* <div>
+                      <div className=" text-center">{index + 1}</div>
+                    </div> */}
+
+                  {/* <div className="w-56 text-center">{user._id}</div> */}
+                  {/* <td className="w-56 text-center">{user.createdAt}</td> */}
+                  <div className="absolute top-0 right-0  flex">
+                    <div className="">
+                      <button
+                        onClick={() => {
+                          setSelectedUserData(user);
+                          // router.push("/update");
+                          setIsModalVisible(true);
+                        }}
+                      >
+                        <FiEdit3 />
+                      </button>
+                    </div>
+                    <div className="">
+                      <button onClick={() => deleteUser(user._id)}>
+                        <AiOutlineDelete />
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            ))
+          ) : (
+            <div>{errorMsg}</div>
+          )}
+        </div>
       </section>
       <section>
         <Modal

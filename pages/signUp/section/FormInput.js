@@ -3,10 +3,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { notification } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
-import { Modal, Button } from "antd";
-import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
 import { BiPlus } from "react-icons/bi";
-import { FiEdit3 } from "react-icons/fi";
+import { Modal, Button } from "antd";
 // import StudentPic from "../../../Helpers/images/studentPicSVG.svg";
 import Student from "../../../src/Helpers/images/studentPicSVG.svg";
 import Image from "next/image";
@@ -279,59 +277,6 @@ export default function FormInput() {
               <div>Add Student</div>
             </div>
           </section>
-        </section>
-        <section className="m-3">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {users.length > 0 ? (
-              users.map((user, index) => (
-                <div
-                  key={user._id}
-                  className="relative justify-between border-[1px] rounded-xl m-[2px] p-[5px] "
-                >
-                  <section className="flex">
-                    {/* <Image src={Student} /> */}
-                    <div className="w-20 h-20 bg-purple-600 rounded-full"></div>
-                    <div className="ml-2 ">
-                      <div className="font-medium">{user.fullName}</div>
-                      <div className="">{user.regNo}</div>
-                      <div className="text-green-700">{user.roomNo}</div>
-                    </div>
-                  </section>
-                  <section>
-                    <div className="">{user.email}</div>
-                  </section>
-                  <section>
-                    {/* <div>
-                      <div className=" text-center">{index + 1}</div>
-                    </div> */}
-
-                    {/* <div className="w-56 text-center">{user._id}</div> */}
-                    {/* <td className="w-56 text-center">{user.createdAt}</td> */}
-                    <div className="absolute top-0 right-0  flex">
-                      <div className="">
-                        <button
-                          onClick={() => {
-                            setSelectedUserData(user);
-                            // router.push("/update");
-                            setIsModalVisible(true);
-                          }}
-                        >
-                          <FiEdit3 />
-                        </button>
-                      </div>
-                      <div className="">
-                        <button onClick={() => deleteUser(user._id)}>
-                          <AiOutlineDelete />
-                        </button>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-              ))
-            ) : (
-              <div>{errorMsg}</div>
-            )}
-          </div>
         </section>
       </main>
 
