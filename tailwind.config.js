@@ -5,7 +5,12 @@ module.exports = {
     "./node_modules/flowbite/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: { min: "320px", max: "375px" },
+        // 'sm': {'min': '640px', 'max': '767px'},
+      },
+    },
   },
   plugins: [require("flowbite/plugin"), require("daisyui")],
 };

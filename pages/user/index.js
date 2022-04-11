@@ -1,6 +1,4 @@
 import axios from "axios";
-// import res from "express/lib/response";
-// import res from "express/lib/response";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -19,11 +17,12 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import View from "../view";
 // import "flowbite";
 // import baseURL from "../../Helpers/Globals";
 const baseURL = "http://localhost:1000";
 
-function User() {
+function User(props) {
   const is770pxBelow = useMediaQuery("(max-width:770px)");
   const is430pxBelow = useMediaQuery("(max-width:430px)");
   const is380pxBelow = useMediaQuery("(max-width:380px)");
@@ -37,6 +36,8 @@ function User() {
   // const [phoneNo, setPhoneNo] = useState("");
 
   const [users, setUsers] = useState([]);
+
+  const [allRooms, setAllRooms] = useState([]);
   const [errorMsg, setErrorMsg] = useState("Error Retriving data");
 
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -67,7 +68,7 @@ function User() {
     bgcolor: "background.paper",
     borderRadius: 3,
     boxShadow: 24,
-    p: is430pxBelow ? 3 : 4,
+    p: is430pxBelow ? "10px 20px 20px 20px" : "20px 30px 30px 30px",
   };
 
   const router = useRouter();
@@ -176,6 +177,19 @@ function User() {
 
   useEffect(() => {
     axios
+      .get(`${baseURL}/api/get/rooms`)
+      .then((res) => {
+        // console.log(res.data.data);
+        setAllRooms(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [triggerUseEffect]);
+
+  // get All Users
+  useEffect(() => {
+    axios
       .get(`${baseURL}/api/get/all-users`)
       .then((res) => {
         // const data = res;
@@ -187,32 +201,28 @@ function User() {
       });
   }, [triggerUseEffect]);
 
-  console.log(users);
+  // console.log(users);
+  console.log(selectedUserData);
 
   return (
-    <div className="px-3 py-2 w-screen">
+    <div className="px-4 py-2 w-screen">
       <section className="flex items-center justify-between">
         <div className="font-medium text-xl text-purple-700">Students</div>
-        <div
-          className="border-[1px] p-1 flex cursor-pointer text-purple-700 border-purple-700 rounded-md"
-          // onClick={() => {
-          //   setAddStudentModalVisible(!isAddStudentModalVisible);
-          // }}
-        >
-          <div>
-            <BiPlus className="h-6 w-6" />
-          </div>
-          <div className="flex items-center">Add Student</div>
-        </div>
-        <label className="swap swap-rotate">
-          {/* <!-- this hidden checkbox controls the state --> */}
+        {/* <label className="swap swap-rotate">
           <input className="hidden" type="checkbox" />
-          {/* <!-- sun icon --> */}
           <BiPlus className="swap-on fill-current w-10 h-10" />
           <FiEdit3 className="swap-off fill-current w-10 h-10" />
-        </label>
+        </label> */}
         <div>
-          <Button onClick={handleOpen}>Open modal</Button>
+          <div
+            onClick={handleOpen}
+            className="border-[1px] p-1 flex cursor-pointer text-purple-700 border-purple-700 rounded-md"
+          >
+            <div>
+              <BiPlus className="h-6 w-6" />
+            </div>
+            <div className="flex items-center">Add Student</div>
+          </div>
           <Modal
             keepMounted
             open={open}
@@ -223,13 +233,18 @@ function User() {
             <Box sx={style} className="relative">
               <section>
                 <div>
-                  <form onSubmit={handleSubmit} className="space-y-3">
+                  <form onSubmit={handleSubmit} className="space-y-4">
                     {/* <button onClick={openNotify}>Notify</button> */}
-                    <div className="absolute top-3 right-3 rounded-full hover:bg-purple-700 ">
+                    <div
+                      onClick={handleClose}
+                      className="absolute top-3 right-3 rounded-full hover:bg-purple-700 "
+                    >
                       <MdClose className="h-7 w-7 text-purple-700 hover:text-white p-1" />
                     </div>
-                    <div className="space-y-1">
-                      <label>Full Name</label>
+                    <div className="space-y-3">
+                      <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                        Full Name
+                      </label>
                       <input
                         required
                         value={fullName}
@@ -240,8 +255,10 @@ function User() {
                         className="rounded-md w-full focus:border-purple-700 "
                       />
                     </div>
-                    <div className="space-y-1">
-                      <label>Register Number</label>
+                    <div className="space-y-3">
+                      <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                        Register Number
+                      </label>
                       <input
                         value={regNo}
                         name={"regNo"}
@@ -251,39 +268,47 @@ function User() {
                         className="rounded-md w-full focus:border-purple-700 "
                       />
                     </div>
-                    <div className="space-y-1">
-                      <label>Room Number</label>
-                      <br></br>
-                      {/* <input
+                    <div className="block md:flex md:items-center md:justify-between space-y-3 md:space-y-0 md:space-x-3">
+                      <div className="space-y-3 flex-grow">
+                        <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                          Room Number
+                        </label>
+                        <br></br>
+                        {/* <input
                     value={roomNo}
                     name={"roomNo"}
                     type={"number"}
                     placeholder={"Ex: 70"}
                     onChange={(e) => setRoomNo(e.target.value)}
                   /> */}
-                      <select
-                        value={roomNo}
-                        onChange={(e) => setRoomNo(e.target.value)}
-                        className="rounded-md w-full focus:border-purple-700 "
-                      >
-                        {/* {allRooms.map((room, index) => { */}
-                        {/* <option value={room.roomNo}>{room.createdAt}</option>; */}
-                        {/* // })} */}
-                      </select>
+                        <select
+                          value={roomNo}
+                          onChange={(e) => setRoomNo(e.target.value)}
+                          className="rounded-md w-full focus:border-purple-700 "
+                        >
+                          {allRooms.map((room, index) => (
+                            <option value={room.roomNo}>{room.roomNo}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="space-y-3">
+                        <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                          Department
+                        </label>
+                        <input
+                          name={"dept"}
+                          value={dept}
+                          type="text"
+                          placeholder={"Ex: Department of BCA"}
+                          onChange={(e) => setDept(e.target.value)}
+                          className="rounded-md w-full focus:border-purple-700 "
+                        />
+                      </div>
                     </div>
-                    <div className="space-y-1">
-                      <label>Department</label>
-                      <input
-                        name={"dept"}
-                        value={dept}
-                        type="text"
-                        placeholder={"Ex: Department of BCA"}
-                        onChange={(e) => setDept(e.target.value)}
-                        className="rounded-md w-full focus:border-purple-700 "
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label>Email</label>
+                    <div className="space-y-3">
+                      <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                        Email
+                      </label>
                       <input
                         name={"email"}
                         value={email}
@@ -295,7 +320,7 @@ function User() {
                     </div>
                     <button
                       id="submit"
-                      className="w-full p-2 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
+                      className="w-full px-2 py-3 space-y-4 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
                     >
                       Submit
                     </button>
@@ -305,13 +330,174 @@ function User() {
             </Box>
           </Modal>
         </div>
-        {/* <!-- The button to open modal --> */}
-        {/* <label for="my-modal-3" class="btn modal-button">
-          open modal
-        </label> */}
+      </section>
 
-        {/* <!-- Put this part before </body> tag --> */}
-        {/* <input type="checkbox" id="my-modal-3" class="modal-toggle" />
+      <section className="m-3">
+        {/* <View /> */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {users.length > 0 ? (
+            users.map((user, index) => (
+              <div
+                onClick={() => {
+                  router.push(`/view/${user._id}`);
+                  setSelectedUserData(user);
+                }}
+                key={user._id}
+                className="relative justify-between bg-slate-100 shadow-md rounded-xl m-[4px] p-3 "
+              >
+                <section className="flex">
+                  {/* <Image src={Student} /> */}
+                  <div className="w-20 h-20 my-3 sm:my-5  bg-white rounded-full"></div>
+                  <div className="ml-2 sm:ml-5 my-3 sm:my-5 flex-grow">
+                    <div className="font-medium text-base text-purple-700">
+                      {user.fullName}
+                    </div>
+                    <div className="">{user.regNo}</div>
+                    <div className="text-green-700">{user.roomNo}</div>
+                  </div>
+                </section>
+                <section>
+                  {/* <div>
+                      <div className=" text-center">{index + 1}</div>
+                    </div> */}
+
+                  {/* <div className="w-56 text-center">{user._id}</div> */}
+                  {/* <td className="w-56 text-center">{user.createdAt}</td> */}
+                  <div className="absolute top-2 right-2 flex space-x-2">
+                    <div className="">
+                      <button
+                        onClick={() => {
+                          setSelectedUserData(user);
+                          // router.push("/update");
+                          setIsModalVisible(true);
+                        }}
+                      >
+                        <FiEdit3 className="text-green-400" />
+                      </button>
+                    </div>
+                    <div className="">
+                      <button onClick={() => deleteUser(user._id)}>
+                        <AiOutlineDelete className="text-red-600" />
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            ))
+          ) : (
+            <div>{errorMsg}</div>
+          )}
+        </div>
+      </section>
+      <section>
+        <Modal
+          title="Update Student"
+          visible={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={[
+            <Button
+              key="close"
+              type="primary"
+              // loading={loading}
+              onClick={() => setIsModalVisible(false)}
+            >
+              Close
+            </Button>,
+            // <Button
+            //   key="update"
+            //   type="primary"
+            //   className="bg-red-400"
+            //   // loading={loading}
+            //   onClick={() => setIsModalVisible(false)}
+            // >
+            //   Update
+            // </Button>,
+          ]}
+        >
+          {/* {console.log(selectedUserData)} */}
+          <section>
+            <form onSubmit={updateHandler}>
+              <div>
+                <label>Full Name</label>
+                <input
+                  type={"text"}
+                  placeholder={"Ex: Akbar Sha S"}
+                  onChange={(e) => {
+                    setSelectedUserData({
+                      ...selectedUserData,
+                      fullName: e.target.value,
+                    });
+                  }}
+                  value={
+                    selectedUserData !== null ? selectedUserData.fullName : ""
+                  }
+                />
+              </div>
+              <div>
+                <label>Register Number</label>
+                <input
+                  name={"regNo"}
+                  type={"text"}
+                  placeholder={"Ex: 1913181033035"}
+                  onChange={(e) => {
+                    setSelectedUserData({
+                      ...selectedUserData,
+                      regNo: e.target.value,
+                    });
+                  }}
+                  value={
+                    selectedUserData !== null ? selectedUserData.regNo : ""
+                  }
+                />
+              </div>
+              <div>
+                <label>Department</label>
+                <input
+                  type="text"
+                  placeholder={"Ex: Department of BCA"}
+                  onChange={(e) => {
+                    setSelectedUserData({
+                      ...selectedUserData,
+                      dept: e.target.value,
+                    });
+                  }}
+                  value={selectedUserData !== null ? selectedUserData.dept : ""}
+                />
+              </div>
+              <div>
+                <label>Email</label>
+                <input
+                  name={"email"}
+                  type="text"
+                  placeholder={"Ex: akbarsha@gmail.com"}
+                  onChange={(e) => {
+                    setSelectedUserData({
+                      ...selectedUserData,
+                      email: e.target.value,
+                    });
+                  }}
+                  value={
+                    selectedUserData !== null ? selectedUserData.email : ""
+                  }
+                />
+              </div>
+              <button>Update</button>
+            </form>
+          </section>
+        </Modal>
+      </section>
+    </div>
+  );
+}
+
+export default User;
+
+{
+  /* <label for="my-modal-3" class="btn modal-button">
+          open modal
+        </label> 
+
+        <input type="checkbox" id="my-modal-3" class="modal-toggle" />
         <div class="modal">
           <div class="modal-box relative">
             <label
@@ -328,9 +514,9 @@ function User() {
               to use Wikipedia for free!
             </p>
           </div>
-        </div> */}
+        </div> 
 
-        {/* <button
+         <button
           class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           type="button"
           data-modal-toggle="authentication-modal"
@@ -450,161 +636,5 @@ function User() {
               </form>
             </div>
           </div>
-        </div> */}
-      </section>
-
-      <section className="m-3">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {users.length > 0 ? (
-            users.map((user, index) => (
-              <div
-                key={user._id}
-                className="relative justify-between border-[1px] rounded-xl m-[2px] p-[5px] "
-              >
-                <section className="flex">
-                  {/* <Image src={Student} /> */}
-                  <div className="w-20 h-20 bg-purple-600 rounded-full"></div>
-                  <div className="ml-2 ">
-                    <div className="font-medium">{user.fullName}</div>
-                    <div className="">{user.regNo}</div>
-                    <div className="text-green-700">{user.roomNo}</div>
-                  </div>
-                </section>
-                <section>
-                  <div className="">{user.email}</div>
-                </section>
-                <section>
-                  {/* <div>
-                      <div className=" text-center">{index + 1}</div>
-                    </div> */}
-
-                  {/* <div className="w-56 text-center">{user._id}</div> */}
-                  {/* <td className="w-56 text-center">{user.createdAt}</td> */}
-                  <div className="absolute top-0 right-0  flex">
-                    <div className="">
-                      <button
-                        onClick={() => {
-                          setSelectedUserData(user);
-                          // router.push("/update");
-                          setIsModalVisible(true);
-                        }}
-                      >
-                        <FiEdit3 />
-                      </button>
-                    </div>
-                    <div className="">
-                      <button onClick={() => deleteUser(user._id)}>
-                        <AiOutlineDelete />
-                      </button>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            ))
-          ) : (
-            <div>{errorMsg}</div>
-          )}
-        </div>
-      </section>
-      <section>
-        <Modal
-          title="Update Student"
-          visible={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          footer={[
-            <Button
-              key="close"
-              type="primary"
-              // loading={loading}
-              onClick={() => setIsModalVisible(false)}
-            >
-              Close
-            </Button>,
-            // <Button
-            //   key="update"
-            //   type="primary"
-            //   className="bg-red-400"
-            //   // loading={loading}
-            //   onClick={() => setIsModalVisible(false)}
-            // >
-            //   Update
-            // </Button>,
-          ]}
-        >
-          {/* {console.log(selectedUserData)} */}
-          <section>
-            <form onSubmit={updateHandler}>
-              <div>
-                <label>Full Name</label>
-                <input
-                  type={"text"}
-                  placeholder={"Ex: Akbar Sha S"}
-                  onChange={(e) => {
-                    setSelectedUserData({
-                      ...selectedUserData,
-                      fullName: e.target.value,
-                    });
-                  }}
-                  value={
-                    selectedUserData !== null ? selectedUserData.fullName : ""
-                  }
-                />
-              </div>
-              <div>
-                <label>Register Number</label>
-                <input
-                  name={"regNo"}
-                  type={"text"}
-                  placeholder={"Ex: 1913181033035"}
-                  onChange={(e) => {
-                    setSelectedUserData({
-                      ...selectedUserData,
-                      regNo: e.target.value,
-                    });
-                  }}
-                  value={
-                    selectedUserData !== null ? selectedUserData.regNo : ""
-                  }
-                />
-              </div>
-              <div>
-                <label>Department</label>
-                <input
-                  type="text"
-                  placeholder={"Ex: Department of BCA"}
-                  onChange={(e) => {
-                    setSelectedUserData({
-                      ...selectedUserData,
-                      dept: e.target.value,
-                    });
-                  }}
-                  value={selectedUserData !== null ? selectedUserData.dept : ""}
-                />
-              </div>
-              <div>
-                <label>Email</label>
-                <input
-                  name={"email"}
-                  type="text"
-                  placeholder={"Ex: akbarsha@gmail.com"}
-                  onChange={(e) => {
-                    setSelectedUserData({
-                      ...selectedUserData,
-                      email: e.target.value,
-                    });
-                  }}
-                  value={
-                    selectedUserData !== null ? selectedUserData.email : ""
-                  }
-                />
-              </div>
-              <button>Update</button>
-            </form>
-          </section>
-        </Modal>
-      </section>
-    </div>
-  );
+        </div> */
 }
-
-export default User;
