@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <div>
       <NavBar />
-      <div className="flex">
+      <div className="flex md:mx-10 ">
         {/* <Sidebar /> */}
         <Component {...pageProps} />
       </div>

@@ -17,7 +17,7 @@ function NavBar() {
 
   return (
     <div
-      className="flex justify-between px-3 py-2 md:py-4 bg-slate-400 md:bg-red-300 lg:bg-green-400 shadow-md"
+      className="sticky top-0 z-50 flex justify-between px-3 py-2 md:py-4 bg-slate-400 md:bg-red-300 lg:bg-green-400 shadow-md"
       // onBlur={() => setShowNavbar(!showNavbar)}
     >
       {/* Left */}

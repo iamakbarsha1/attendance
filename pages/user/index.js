@@ -186,7 +186,6 @@ function User(props) {
         console.log(err);
       });
   }, [triggerUseEffect]);
-
   // get All Users
   useEffect(() => {
     axios
@@ -195,9 +194,11 @@ function User(props) {
         // const data = res;
         setUsers(res.data.data);
         console.log("Data has been received", res.data.data);
+        setUseEffect(true);
       })
       .catch((err) => {
         console.log("Error in getUsers", err);
+        setUseEffect(true);
       });
   }, [triggerUseEffect]);
 
@@ -205,9 +206,14 @@ function User(props) {
   console.log(selectedUserData);
 
   return (
-    <div className="px-4 py-2 w-screen">
-      <section className="flex items-center justify-between">
-        <div className="font-medium text-xl text-purple-700">Students</div>
+    <div
+      // style={{ height: "calc(100vh - 56px)" }}
+      className="px-4 py-2 w-screen"
+    >
+      <section className=" flex items-center justify-between">
+        <div className="font-medium text-xl lg:text-2xl text-purple-700">
+          Students
+        </div>
         {/* <label className="swap swap-rotate">
           <input className="hidden" type="checkbox" />
           <BiPlus className="swap-on fill-current w-10 h-10" />
@@ -216,9 +222,9 @@ function User(props) {
         <div>
           <div
             onClick={handleOpen}
-            className="border-[1px] p-1 flex cursor-pointer text-purple-700 border-purple-700 rounded-md"
+            className="border-[1px] p-1 lg:text-lg font-medium flex cursor-pointer text-purple-700 border-purple-700 rounded-md"
           >
-            <div>
+            <div className="flex items-center justify-center">
               <BiPlus className="h-6 w-6" />
             </div>
             <div className="flex items-center">Add Student</div>
@@ -332,7 +338,10 @@ function User(props) {
         </div>
       </section>
 
-      <section className="m-3">
+      <section
+        // style={{ height: "calc(100vh - 56px)" }}
+        className="my-2 h-[80vh] md:h-[80vh] scrollbar-hide overflow-auto"
+      >
         {/* <View /> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {users.length > 0 ? (
