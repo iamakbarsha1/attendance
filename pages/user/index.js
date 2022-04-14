@@ -1,8 +1,7 @@
 import axios from "axios";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+// import { useRouter } from "next/dist/client/router";
 import { useMediaQuery, makeStyles } from "@mui/material";
 
 import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
@@ -29,6 +28,18 @@ function User() {
   const is430pxBelow = useMediaQuery("(max-width:430px)");
   const is380pxBelow = useMediaQuery("(max-width:380px)");
   const is320pxBelow = useMediaQuery("(max-width:320px)");
+  const router = useRouter();
+
+  // const singleUserPage = () => {
+  //   router.push({
+  //     pathname: "/view",
+  //     query: {
+  //       selectedUserData,
+  //     },
+  //   });
+
+  //   setSelectedUserData(user);
+  // };
 
   const [fullName, setFullName] = useState("");
   const [regNo, setRegNo] = useState("");
@@ -46,7 +57,7 @@ function User() {
   const [triggerUseEffect, setUseEffect] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -72,8 +83,6 @@ function User() {
     boxShadow: 24,
     p: is430pxBelow ? "10px 20px 20px 20px" : "20px 30px 30px 30px",
   };
-
-  const router = useRouter();
 
   // const setUpdateID = (id, fullName, regNo, dept, email) => {
   //   router.push("/update");
@@ -350,57 +359,62 @@ function User() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {users.length > 0 ? (
             users.map((user, index) => (
-              <Link href={`/user/${user._id}`}>
-                <div
-                  onClick={() => {
-                    // router.push(`/view/${user._id}`);
-                    // router.push(`/view`);
-                    setSelectedUserData(user);
-                  }}
-                  key={user._id}
-                  className="relative justify-between bg-slate-100 shadow-md rounded-xl m-[4px] p-3 "
-                >
-                  <section className="flex">
-                    {/* <Image src={Student} /> */}
-                    <div className="w-20 h-20 my-3 sm:my-5  bg-white rounded-full"></div>
-                    <div className="ml-2 sm:ml-5 my-3 sm:my-5 flex-grow">
-                      <div className="font-medium text-base text-purple-700">
-                        {user._id}
-                        <br></br>
-                        {user.fullName}
-                      </div>
-                      <div className="">{user.regNo}</div>
-                      <div className="text-green-700">{user.roomNo}</div>
+              // <Link href={`/user/${user._id}`}>
+              <div
+                onClick={() => {
+                  // singleUserPage;
+                  // router.push(`/view/${user._id}`);
+                  // router.push("/view");
+                  router.push({
+                    pathname: "/view",
+                    query: selectedUserData,
+                  });
+                  setSelectedUserData(user);
+                }}
+                key={user._id}
+                className="relative justify-between bg-slate-100 shadow-md rounded-xl m-[4px] p-3 "
+              >
+                <section className="flex">
+                  {/* <Image src={Student} /> */}
+                  <div className="w-20 h-20 my-3 sm:my-5  bg-white rounded-full"></div>
+                  <div className="ml-2 sm:ml-5 my-3 sm:my-5 flex-grow">
+                    <div className="font-medium text-base text-purple-700">
+                      {user._id}
+                      <br></br>
+                      {user.fullName}
                     </div>
-                  </section>
-                  <section>
-                    {/* <div>
+                    <div className="">{user.regNo}</div>
+                    <div className="text-green-700">{user.roomNo}</div>
+                  </div>
+                </section>
+                <section>
+                  {/* <div>
                       <div className=" text-center">{index + 1}</div>
                     </div> */}
 
-                    {/* <div className="w-56 text-center">{user._id}</div> */}
-                    {/* <td className="w-56 text-center">{user.createdAt}</td> */}
-                    <div className="absolute top-2 right-2 flex space-x-2">
-                      <div className="">
-                        <button
-                          onClick={() => {
-                            setSelectedUserData(user);
-                            // router.push("/update");
-                            setIsModalVisible(true);
-                          }}
-                        >
-                          <FiEdit3 className="text-green-400" />
-                        </button>
-                      </div>
-                      <div className="">
-                        <button onClick={() => deleteUser(user._id)}>
-                          <AiOutlineDelete className="text-red-600" />
-                        </button>
-                      </div>
+                  {/* <div className="w-56 text-center">{user._id}</div> */}
+                  {/* <td className="w-56 text-center">{user.createdAt}</td> */}
+                  <div className="absolute top-2 right-2 flex space-x-2">
+                    <div className="">
+                      <button
+                        onClick={() => {
+                          setSelectedUserData(user);
+                          // router.push("/update");
+                          setIsModalVisible(true);
+                        }}
+                      >
+                        <FiEdit3 className="text-green-400" />
+                      </button>
                     </div>
-                  </section>
-                </div>
-              </Link>
+                    <div className="">
+                      <button onClick={() => deleteUser(user._id)}>
+                        <AiOutlineDelete className="text-red-600" />
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              // </Link>
             ))
           ) : (
             <div>{errorMsg}</div>
