@@ -51,11 +51,14 @@ function User() {
   const [users, setUsers] = useState([]);
 
   const [allRooms, setAllRooms] = useState([]);
-  const [errorMsg, setErrorMsg] = useState("Error Retriving data");
+  const [errorMsg, setErrorMsg] = useState(
+    "Add Students by Clicking Add Student Button"
+  );
 
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [triggerUseEffect, setUseEffect] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isUpdateModal, setIsUpdateModal] = useState(false);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -63,6 +66,34 @@ function User() {
   };
   const handleClose = () => {
     setOpen(false);
+    setUseEffect(!triggerUseEffect);
+  };
+
+  const handleUpdateModalOpen = () => {
+    setIsUpdateModal(true);
+  };
+  const handleUpdateModalClose = () => {
+    setIsUpdateModal(false);
+  };
+
+  const styleUpdateModal = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: is770pxBelow
+      ? is430pxBelow
+        ? is380pxBelow
+          ? is320pxBelow
+            ? 300
+            : 330
+          : 350
+        : 600
+      : 700,
+    bgcolor: "background.paper",
+    borderRadius: 3,
+    boxShadow: 24,
+    p: is430pxBelow ? "10px 20px 20px 20px" : "20px 30px 30px 30px",
   };
   const style = {
     position: "absolute",
@@ -114,7 +145,7 @@ function User() {
     });
   };
 
-  const updateHandler = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
 
     axios
@@ -203,17 +234,18 @@ function User() {
       .get(`${baseURL}/api/get/all-users`)
       .then((res) => {
         // const data = res;
-        setUsers(res.data.data);
+        setUsers(res.data.data.reverse());
         console.log("Data has been received", res.data.data);
         setUseEffect(true);
       })
       .catch((err) => {
         console.log("Error in getUsers", err);
-        setUseEffect(true);
       });
   }, [triggerUseEffect]);
 
   // console.log(users);
+  // console.log(selectedUserData.fullName);
+  // console.log(allRooms);
   console.log(selectedUserData);
 
   return (
@@ -303,8 +335,13 @@ function User() {
                           onChange={(e) => setRoomNo(e.target.value)}
                           className="rounded-md w-full focus:border-purple-700 "
                         >
-                          {allRooms.map((room, index) => (
-                            <option value={room.roomNo}>{room.roomNo}</option>
+                          <option selected>
+                            -- Please Select a Room Number --
+                          </option>
+                          {allRooms.sort().map((room, index) => (
+                            <option value={room.roomNo} key={room._id}>
+                              {room.roomNo}
+                            </option>
                           ))}
                         </select>
                       </div>
@@ -336,6 +373,7 @@ function User() {
                       />
                     </div>
                     <button
+                      onClick={handleClose}
                       id="submit"
                       className="w-full px-2 py-3 space-y-4 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
                     >
@@ -359,18 +397,10 @@ function User() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {users.length > 0 ? (
             users.map((user, index) => (
-              // <Link href={`/user/${user._id}`}>
               <div
-                onClick={() => {
-                  // singleUserPage;
-                  // router.push(`/view/${user._id}`);
-                  // router.push("/view");
-                  router.push({
-                    pathname: "/view",
-                    query: selectedUserData,
-                  });
-                  setSelectedUserData(user);
-                }}
+                // onClick={() => {
+                //   setSelectedUserData(user);
+                // }}
                 key={user._id}
                 className="relative justify-between bg-slate-100 shadow-md rounded-xl m-[4px] p-3 "
               >
@@ -379,8 +409,8 @@ function User() {
                   <div className="w-20 h-20 my-3 sm:my-5  bg-white rounded-full"></div>
                   <div className="ml-2 sm:ml-5 my-3 sm:my-5 flex-grow">
                     <div className="font-medium text-base text-purple-700">
-                      {user._id}
-                      <br></br>
+                      {/* {user._id}
+                      <br></br> */}
                       {user.fullName}
                     </div>
                     <div className="">{user.regNo}</div>
@@ -400,11 +430,166 @@ function User() {
                         onClick={() => {
                           setSelectedUserData(user);
                           // router.push("/update");
-                          setIsModalVisible(true);
+                          // setIsModalVisible(true);
+                          handleUpdateModalOpen();
                         }}
                       >
                         <FiEdit3 className="text-green-400" />
                       </button>
+                      <Modal
+                        keepMounted
+                        open={isUpdateModal}
+                        onClose={handleUpdateModalClose}
+                        // aria-labelledby="keep-mounted-modal-title"
+                        // aria-describedby="keep-mounted-modal-description"
+                      >
+                        <Box sx={styleUpdateModal} className="relative">
+                          <section>
+                            <div>
+                              <form
+                                onSubmit={handleUpdate}
+                                className="space-y-4"
+                              >
+                                {/* <button onClick={openNotify}>Notify</button> */}
+                                <div
+                                  onClick={handleUpdateModalClose}
+                                  className="absolute top-3 right-3 rounded-full hover:bg-purple-700 "
+                                >
+                                  <MdClose className="h-7 w-7 text-purple-700 hover:text-white p-1" />
+                                </div>
+                                <div className="space-y-3">
+                                  <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                                    Full Name
+                                  </label>
+                                  <input
+                                    required
+                                    value={
+                                      selectedUserData !== null
+                                        ? selectedUserData.fullName
+                                        : ""
+                                    }
+                                    name={"fullName"}
+                                    type={"text"}
+                                    placeholder={"Ex: Akbar Sha S"}
+                                    onChange={(e) => {
+                                      setSelectedUserData({
+                                        ...selectedUserData,
+                                        fullName: e.target.value,
+                                      });
+                                    }}
+                                    className="rounded-md w-full focus:border-purple-700 "
+                                  />
+                                </div>
+                                <div className="space-y-3">
+                                  <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                                    Register Number
+                                  </label>
+                                  <input
+                                    value={
+                                      selectedUserData !== null
+                                        ? selectedUserData.regNo
+                                        : ""
+                                    }
+                                    name={"regNo"}
+                                    type={"text"}
+                                    placeholder={"Ex: 1913181033035"}
+                                    onChange={(e) => {
+                                      setSelectedUserData({
+                                        ...selectedUserData,
+                                        regNo: e.target.value,
+                                      });
+                                    }}
+                                    className="rounded-md w-full focus:border-purple-700 "
+                                  />
+                                </div>
+                                <div className="block md:flex md:items-center md:justify-between space-y-3 md:space-y-0 md:space-x-3">
+                                  <div className="space-y-3 flex-grow">
+                                    <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                                      Room Number
+                                    </label>
+                                    <br></br>
+                                    <select
+                                      value={
+                                        selectedUserData !== null
+                                          ? selectedUserData.roomNo
+                                          : ""
+                                      }
+                                      onChange={(e) => {
+                                        setSelectedUserData({
+                                          ...selectedUserData,
+                                          roomNo: e.target.value,
+                                        });
+                                      }}
+                                      className="rounded-md w-full focus:border-purple-700 "
+                                    >
+                                      {allRooms.sort().map((room, index) => (
+                                        <option
+                                          value={room.roomNo}
+                                          key={room._id}
+                                        >
+                                          {room.roomNo}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                  <div className="space-y-3">
+                                    <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                                      Department
+                                    </label>
+                                    <input
+                                      name={"dept"}
+                                      value={
+                                        selectedUserData !== null
+                                          ? selectedUserData.dept
+                                          : ""
+                                      }
+                                      type="text"
+                                      placeholder={"Ex: Department of BCA"}
+                                      onChange={(e) => {
+                                        setSelectedUserData({
+                                          ...selectedUserData,
+                                          dept: e.target.value,
+                                        });
+                                      }}
+                                      className="rounded-md w-full focus:border-purple-700 "
+                                    />
+                                  </div>
+                                </div>
+                                <div className="space-y-3">
+                                  <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                                    Email
+                                  </label>
+                                  <input
+                                    name={"email"}
+                                    value={
+                                      selectedUserData !== null
+                                        ? selectedUserData.email
+                                        : ""
+                                    }
+                                    type="text"
+                                    placeholder={"Ex: akbarsha@gmail.com"}
+                                    onChange={(e) => {
+                                      setSelectedUserData({
+                                        ...selectedUserData,
+                                        email: e.target.value,
+                                      });
+                                    }}
+                                    className="rounded-md w-full focus:border-purple-700 "
+                                  />
+                                </div>
+                                <button
+                                  onClick={handleUpdateModalClose}
+                                  id="submit"
+                                  className="w-full px-2 py-3 space-y-4 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
+                                >
+                                  Update
+                                </button>
+                              </form>
+                            </div>
+                          </section>
+                        </Box>
+                      </Modal>
+                      {/* {isUpdateModal ? <div> Akbar Sha S </div> : null} */}
                     </div>
                     <div className="">
                       <button onClick={() => deleteUser(user._id)}>
@@ -414,109 +599,11 @@ function User() {
                   </div>
                 </section>
               </div>
-              // </Link>
             ))
           ) : (
             <div>{errorMsg}</div>
           )}
         </div>
-      </section>
-      <section>
-        <Modal
-          title="Update Student"
-          visible={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          footer={[
-            <Button
-              key="close"
-              type="primary"
-              // loading={loading}
-              onClick={() => setIsModalVisible(false)}
-            >
-              Close
-            </Button>,
-            // <Button
-            //   key="update"
-            //   type="primary"
-            //   className="bg-red-400"
-            //   // loading={loading}
-            //   onClick={() => setIsModalVisible(false)}
-            // >
-            //   Update
-            // </Button>,
-          ]}
-        >
-          {/* {console.log(selectedUserData)} */}
-          <section>
-            <form onSubmit={updateHandler}>
-              <div>
-                <label>Full Name</label>
-                <input
-                  type={"text"}
-                  placeholder={"Ex: Akbar Sha S"}
-                  onChange={(e) => {
-                    setSelectedUserData({
-                      ...selectedUserData,
-                      fullName: e.target.value,
-                    });
-                  }}
-                  value={
-                    selectedUserData !== null ? selectedUserData.fullName : ""
-                  }
-                />
-              </div>
-              <div>
-                <label>Register Number</label>
-                <input
-                  name={"regNo"}
-                  type={"text"}
-                  placeholder={"Ex: 1913181033035"}
-                  onChange={(e) => {
-                    setSelectedUserData({
-                      ...selectedUserData,
-                      regNo: e.target.value,
-                    });
-                  }}
-                  value={
-                    selectedUserData !== null ? selectedUserData.regNo : ""
-                  }
-                />
-              </div>
-              <div>
-                <label>Department</label>
-                <input
-                  type="text"
-                  placeholder={"Ex: Department of BCA"}
-                  onChange={(e) => {
-                    setSelectedUserData({
-                      ...selectedUserData,
-                      dept: e.target.value,
-                    });
-                  }}
-                  value={selectedUserData !== null ? selectedUserData.dept : ""}
-                />
-              </div>
-              <div>
-                <label>Email</label>
-                <input
-                  name={"email"}
-                  type="text"
-                  placeholder={"Ex: akbarsha@gmail.com"}
-                  onChange={(e) => {
-                    setSelectedUserData({
-                      ...selectedUserData,
-                      email: e.target.value,
-                    });
-                  }}
-                  value={
-                    selectedUserData !== null ? selectedUserData.email : ""
-                  }
-                />
-              </div>
-              <button>Update</button>
-            </form>
-          </section>
-        </Modal>
       </section>
     </div>
   );

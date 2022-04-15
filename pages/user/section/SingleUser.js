@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function SingleUser({ selectedUserData }) {
+function SingleUser() {
   // const { createdAt, dept, email, fullName, regNo, updatedAt, __v, _id } =
   //   selectedUserData;
   // const { fullName } = selectedUserData;

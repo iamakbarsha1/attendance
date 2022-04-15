@@ -152,7 +152,12 @@ function NavBar() {
               {/* {showStudentsMenu ? "" : ""} */}
             </div>
 
-            <div className="lg:ml-10 cursor-pointer">Rooms</div>
+            <div
+              onClick={() => router.push("/room")}
+              className="lg:ml-10 cursor-pointer"
+            >
+              Rooms
+            </div>
             <div className="lg:ml-10 cursor-pointer">Reports</div>
           </div>
         </div>
