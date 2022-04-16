@@ -32,7 +32,14 @@ function Room() {
     setOpen(false);
     setUseEffect(!triggerUseEffect);
   };
-  console.log(allRooms);
+  const [isUpdateModal, setIsUpdateModal] = useState(false);
+  const handleUpdateModalOpen = () => {
+    setIsUpdateModal(true);
+  };
+  const handleUpdateModalClose = () => {
+    setIsUpdateModal(false);
+  };
+  // console.log(allRooms);
   const style = {
     position: "absolute",
     top: "50%",
@@ -52,6 +59,25 @@ function Room() {
     boxShadow: 24,
     p: is430pxBelow ? "10px 20px 20px 20px" : "20px 30px 30px 30px",
   };
+  const styleUpdateModal = {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: is770pxBelow
+      ? is430pxBelow
+        ? is380pxBelow
+          ? is320pxBelow
+            ? 300
+            : 330
+          : 350
+        : 600
+      : 700,
+    bgcolor: "background.paper",
+    borderRadius: 3,
+    boxShadow: 1,
+    p: is430pxBelow ? "10px 20px 20px 20px" : "20px 30px 30px 30px",
+  };
 
   const deleteRoom = (id) => {
     console.log("selected Room ID", id);
@@ -59,9 +85,43 @@ function Room() {
       .delete(`${baseURL}/api/delete/rooms/${id}`)
       .then((res) => {
         console.log("Result", res);
+        notification.success({
+          message: "Deleted Successfully",
+          description: "Room has been Deleted Successfully in Database",
+          placement: "topRight",
+        });
+        setUseEffect(!triggerUseEffect);
       })
       .catch((err) => {
         console.log("Error in .catch@deleteRoom", err);
+      });
+  };
+
+  const UpdateRoomHandler = (e) => {
+    e.preventDefault();
+    axios
+      .put(`${baseURL}/api/update/rooms`, {
+        id: selectedRooms._id,
+        updatedData: selectedRooms,
+      })
+      .then((res) => {
+        console.log(res);
+        setIsUpdateModal(false);
+        notification.success({
+          message: res.data.key,
+          description: res.data.data,
+          placement: "topRight",
+        });
+        setUseEffect(!triggerUseEffect);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsUpdateModal(false);
+        notification.error({
+          message: "Updation Error",
+          description: "Room has been Updation Error in Database",
+          placement: "topRight",
+        });
       });
   };
 
@@ -91,23 +151,21 @@ function Room() {
       });
   };
 
+  // get AllRooms from DB via Axios
   useEffect(() => {
     axios
       .get(`${baseURL}/api/get/rooms`)
       .then((res) => {
-        console.log(`Room Data has been received`);
-        console.log(res.data.data);
+        console.log(`Room Data has been received from DB via Axios HTTPs`);
+        // console.log(res.data.data);
         setAllRooms(res.data.data);
       })
       .catch((err) => {
         console.log("Error while getting Rooms Data", err);
       });
-    // .catch((err) => {
-    //   console.log(`Error while getting Rooms Data ${err}`);
-    // });
   }, [triggerUseEffect]);
 
-  console.log(selectedRooms);
+  // console.log(selectedRooms);
 
   return (
     <div className="px-4 py-2 w-screen">
@@ -183,8 +241,64 @@ function Room() {
                     // handleUpdateModalOpen();
                   }}
                 >
-                  <FiEdit3 className="h-4 w-4 text-green-400" />
+                  <FiEdit3
+                    onClick={handleUpdateModalOpen}
+                    className="h-4 w-4 text-green-400"
+                  />
                 </button>
+                <Modal
+                  keepMounted
+                  open={isUpdateModal}
+                  onClose={handleUpdateModalClose}
+                  aria-labelledby="keep-mounted-modal-title"
+                  aria-describedby="keep-mounted-modal-description"
+                >
+                  <Box sx={styleUpdateModal} className="relative">
+                    <section>
+                      <form onSubmit={UpdateRoomHandler} className="space-y-3">
+                        <div
+                          onClick={handleUpdateModalClose}
+                          className="absolute top-3 right-3 rounded-full hover:bg-purple-700 "
+                        >
+                          <MdClose className="h-7 w-7 text-purple-700 hover:text-white p-1" />
+                        </div>
+                        <div className="space-y-3">
+                          <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                            Room number
+                          </label>
+                          <input
+                            required
+                            value={
+                              selectedRooms !== null ? selectedRooms.roomNo : ""
+                            }
+                            name={"fullName"}
+                            type={"number"}
+                            placeholder={"Ex: 70"}
+                            onChange={(e) =>
+                              setSelectedRooms({
+                                ...selectedRooms,
+                                roomNo: e.target.value,
+                              })
+                            }
+                            className="rounded-md w-full focus:border-purple-700"
+                          />
+                        </div>
+                        <div>
+                          <button
+                            // onClick={handleClose}
+                            onClick={() => {
+                              setIsUpdateModal(false);
+                            }}
+                            id="submit"
+                            className="w-full px-2 py-3 space-y-4 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
+                          >
+                            Update Room
+                          </button>
+                        </div>
+                      </form>
+                    </section>
+                  </Box>
+                </Modal>
                 <button
                   className="hidden absolute top-4 right-10 group-hover:block"
                   onClick={() => deleteRoom(room._id)}

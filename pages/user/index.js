@@ -11,7 +11,7 @@ import { MdClose } from "react-icons/md";
 
 import { notification } from "antd";
 // import { Modal, Button } from "antd";
-
+Find Errors in this page on updating students anem it changes to akbarsha's details in upadate form
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
@@ -154,7 +154,7 @@ function User() {
         updatedData: selectedUserData,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setIsModalVisible(false);
         notification.success({
           message: res.data.key,
@@ -164,8 +164,7 @@ function User() {
         setUseEffect(!triggerUseEffect);
       })
       .catch((err) => {
-        console.log(err);
-
+        // console.log(err);
         setIsModalVisible(false);
         notification.error({
           message: "Error",
@@ -246,7 +245,18 @@ function User() {
   // console.log(users);
   // console.log(selectedUserData.fullName);
   // console.log(allRooms);
-  console.log(selectedUserData);
+  // console.log(selectedUserData);
+
+  // const viewRoute = () => {
+  //   router.push({
+  //     pathname: "/view",
+  //     query: {
+  //       selectedUserData,
+  //       fullName: selectedUserData.fullName,
+  //       regNo: selectedUserData.regNo,
+  //     },
+  //   });
+  // };
 
   return (
     <div
@@ -393,15 +403,16 @@ function User() {
       >
         {/* <View /> */}
         {/* Single User View */}
-        <SingleUser selectedUserData={selectedUserData} />
+        {/* <SingleUser selectedUserData={selectedUserData} /> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {users.length > 0 ? (
             users.map((user, index) => (
               <div
-                // onClick={() => {
-                //   setSelectedUserData(user);
-                // }}
                 key={user._id}
+                onClick={() => {
+                  setSelectedUserData(user);
+                  // viewRoute();
+                }}
                 className="relative justify-between bg-slate-100 shadow-md rounded-xl m-[4px] p-3 "
               >
                 <section className="flex">
@@ -428,7 +439,7 @@ function User() {
                     <div className="">
                       <button
                         onClick={() => {
-                          setSelectedUserData(user);
+                          // setSelectedUserData(user);
                           // router.push("/update");
                           // setIsModalVisible(true);
                           handleUpdateModalOpen();

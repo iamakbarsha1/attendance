@@ -27,7 +27,11 @@ function View() {
   // }
   return (
     <main>
-      <div>View{router.query.fullName}</div>
+      <div>View</div>
+      <div>{router.query.regNo}</div>
+      <div>{router.query.fullName}</div>
+      <div></div>
+      <div></div>
       <SingleUser
       // selectedUserData={selectedUserData}
       // setSelectedUserData={setSelectedUserData}
