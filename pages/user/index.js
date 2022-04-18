@@ -11,7 +11,7 @@ import { MdClose } from "react-icons/md";
 
 import { notification } from "antd";
 // import { Modal, Button } from "antd";
-Find Errors in this page on updating students anem it changes to akbarsha's details in upadate form
+// Find Errors in this page on updating students anem it changes to akbarsha's details in upadate form
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
@@ -410,7 +410,7 @@ function User() {
               <div
                 key={user._id}
                 onClick={() => {
-                  setSelectedUserData(user);
+                  // setSelectedUserData(user);
                   // viewRoute();
                 }}
                 className="relative justify-between bg-slate-100 shadow-md rounded-xl m-[4px] p-3 "
@@ -439,7 +439,7 @@ function User() {
                     <div className="">
                       <button
                         onClick={() => {
-                          // setSelectedUserData(user);
+                          setSelectedUserData(user);
                           // router.push("/update");
                           // setIsModalVisible(true);
                           handleUpdateModalOpen();
