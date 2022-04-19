@@ -19,6 +19,7 @@ import Typography from "@mui/material/Typography";
 import View from "../view";
 import Link from "next/link";
 import SingleUser from "./section/SingleUser";
+import Counter from "../../Components/Counter";
 // import "flowbite";
 // import baseURL from "../../Helpers/Globals";
 const baseURL = "http://localhost:1000";
@@ -29,17 +30,6 @@ function User() {
   const is380pxBelow = useMediaQuery("(max-width:380px)");
   const is320pxBelow = useMediaQuery("(max-width:320px)");
   const router = useRouter();
-
-  // const singleUserPage = () => {
-  //   router.push({
-  //     pathname: "/view",
-  //     query: {
-  //       selectedUserData,
-  //     },
-  //   });
-
-  //   setSelectedUserData(user);
-  // };
 
   const [fullName, setFullName] = useState("");
   const [regNo, setRegNo] = useState("");
@@ -242,22 +232,6 @@ function User() {
       });
   }, [triggerUseEffect]);
 
-  // console.log(users);
-  // console.log(selectedUserData.fullName);
-  // console.log(allRooms);
-  // console.log(selectedUserData);
-
-  // const viewRoute = () => {
-  //   router.push({
-  //     pathname: "/view",
-  //     query: {
-  //       selectedUserData,
-  //       fullName: selectedUserData.fullName,
-  //       regNo: selectedUserData.regNo,
-  //     },
-  //   });
-  // };
-
   return (
     <div
       // style={{ height: "calc(100vh - 56px)" }}
@@ -267,6 +241,7 @@ function User() {
         <div className="font-medium text-xl lg:text-2xl text-purple-700">
           Students
         </div>
+        <Counter />
         {/* <label className="swap swap-rotate">
           <input className="hidden" type="checkbox" />
           <BiPlus className="swap-on fill-current w-10 h-10" />

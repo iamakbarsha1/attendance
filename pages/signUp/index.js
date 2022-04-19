@@ -42,31 +42,9 @@ function Create() {
   //     // roomNo: roomNo,
   //   };
 
-  //   axios({
-  //     url: "http://localhost:1000/post/signUp",
-  //     method: "POST",
-  //     data: payload,
-  //   })
-  //     .then(() => {
-  //       console.log("Data has been sent SUCCESSfully");
-  //     })
-  //     .catch(() => {
-  //       console.log("Internal Server Error");
-  //     });
-  // };
-  // console.log(formData);
   return (
     <div>
       <FormInput />
-      {/* <form onSubmit={handleSubmit} className="p-24">
-        {inputs.map((input) => (
-          <FormInput key={input.id} {...input} handleChange={handleChange} />
-        ))}
-        <FormInput />
-        <button id="submit" className="bg-green-400">
-          Submit
-        </button>
-      </form> */}
     </div>
   );
 }
