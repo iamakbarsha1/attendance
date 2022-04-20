@@ -7,7 +7,7 @@ import {
 } from "../pages/features/counterSlice";
 
 function Counter() {
-  const count = useSelector((state) => state.counter.value);
+  const count = useSelector((state) => state.Counter.value);
   const dispatch = useDispatch();
 
   const [incrementAmount, setIncrementAmount] = useState("2");
