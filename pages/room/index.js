@@ -231,7 +231,7 @@ function Room() {
       <section className="flex flex-wrap ">
         {allRooms.map((room) => {
           return (
-            <main className="relative group">
+            <main className="relative group" key={room._id}>
               <section key={room._id} className="flex-wrap">
                 <button
                   className="hidden absolute top-16 right-10 group-hover:block"
