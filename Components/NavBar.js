@@ -160,10 +160,10 @@ function NavBar() {
             </div>
             <div className="lg:ml-10 cursor-pointer">Reports</div>
             <div
-              onClick={() => router.push("/logIn")}
+              onClick={() => router.push("/view")}
               className="lg:ml-10 cursor-pointer"
             >
-              Login
+              FormEmail
             </div>
             <div className="lg:ml-10 cursor-pointer">Signup</div>
           </div>

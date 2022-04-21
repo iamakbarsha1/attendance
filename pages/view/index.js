@@ -2,6 +2,7 @@ import React from "react";
 import SingleUser from "../user/section/SingleUser";
 import { useRouter } from "next/router";
 import { withRouter } from "next/router";
+import FormEmail from "../../Components/FormEmail";
 
 // function View({ selectedUserData, setSelectedUserData }) {
 function View() {
@@ -36,6 +37,7 @@ function View() {
       // selectedUserData={selectedUserData}
       // setSelectedUserData={setSelectedUserData}
       />
+      <FormEmail />
     </main>
   );
 }
