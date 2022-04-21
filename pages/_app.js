@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
     <Provider store={store}>
       <div>
         <NavBar />
-        <div className="flex md:mx-10 ">
+        <div className="flex md:mx-10 my-2">
           {/* <Sidebar /> */}
           <Component {...pageProps} />
         </div>

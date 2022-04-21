@@ -4,7 +4,8 @@ import FormInput from "../signUp/section/FormInput";
 import { useRouter } from "next/router";
 import { message } from "antd";
 
-const baseURL = "http://localhost:1000";
+const baseURL =
+  "https://ams-tnc-hostel.herokuapp.com" || "http://localhost:1000";
 
 function Update({ setSelectedUserData }) {
   const [userId, setUserId] = useState(null);

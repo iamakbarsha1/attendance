@@ -141,6 +141,7 @@ function Room() {
           description: "Room added Successfully",
         });
         setUseEffect(!triggerUseEffect);
+        setOpen(false);
       })
       .catch((err) => {
         //   console.log(err);

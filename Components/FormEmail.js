@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
-const baseURL = "http://localhost:1000";
+const baseURL =
+  "https://ams-tnc-hostel.herokuapp.com" || "http://localhost:1000";
 
 function FormEmail() {
   const [name, setName] = useState("");

@@ -10,7 +10,8 @@ import Student from "../../../src/Helpers/images/studentPicSVG.svg";
 import Image from "next/image";
 
 // import baseURL from "../../../Helpers/Globals";
-const baseURL = "http://localhost:1000";
+const baseURL =
+  "https://ams-tnc-hostel.herokuapp.com" || "http://localhost:1000";
 // const baseURL = axios.create({
 //   baseURL: "http://localhost:1000",
 // });

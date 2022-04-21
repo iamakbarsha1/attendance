@@ -22,7 +22,8 @@ import SingleUser from "./section/SingleUser";
 import Counter from "../../Components/Counter";
 // import "flowbite";
 // import baseURL from "../../Helpers/Globals";
-const baseURL = "http://localhost:1000";
+const baseURL =
+  "https://ams-tnc-hostel.herokuapp.com" || "http://localhost:1000";
 
 function User() {
   const is770pxBelow = useMediaQuery("(max-width:770px)");
@@ -241,7 +242,7 @@ function User() {
         <div className="font-medium text-xl lg:text-2xl text-purple-700">
           Students
         </div>
-        <Counter />
+        {/* <Counter /> */}
         {/* <label className="swap swap-rotate">
           <input className="hidden" type="checkbox" />
           <BiPlus className="swap-on fill-current w-10 h-10" />
@@ -253,7 +254,7 @@ function User() {
             className="border-[1px] p-1 lg:text-lg font-medium flex cursor-pointer text-purple-700 border-purple-700 rounded-md"
           >
             <div className="flex items-center justify-center">
-              <BiPlus className="h-6 w-6" />
+              <BiPlus className="h-6 w-6 md:h-5 md:w-5 lg:h-6 lg:h-6" />
             </div>
             <div className="flex items-center">Add Student</div>
           </div>
@@ -388,7 +389,7 @@ function User() {
                   // setSelectedUserData(user);
                   // viewRoute();
                 }}
-                className="relative justify-between bg-slate-100 shadow-md rounded-xl m-[4px] p-3 "
+                className="relative justify-between bg-slate-100 shadow-md rounded-xl m-[4px] md:m-[6px] p-3 "
               >
                 <section className="flex">
                   {/* <Image src={Student} /> */}
