@@ -1,4 +1,3 @@
-import React from "react";
 import { configureStore } from "@reduxjs/toolkit";
 import CounterReducer from "./features/counterSlice";
 import UserReducer from "./features/userSlice";

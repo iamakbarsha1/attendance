@@ -4,7 +4,7 @@ import {
   decrement,
   increament,
   increamentByAmount,
-} from "../pages/features/counterSlice";
+} from "../features/counterSlice";
 
 function Counter() {
   const count = useSelector((state) => state.Counter.value);

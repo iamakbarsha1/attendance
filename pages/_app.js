@@ -3,7 +3,7 @@ import "../styles/globals.css";
 import "antd/dist/antd.css";
 import Sidebar from "../Components/Sidebar";
 import { Provider } from "react-redux";
-import store from "./store";
+import store from "../store";
 
 function MyApp({ Component, pageProps }) {
   return (

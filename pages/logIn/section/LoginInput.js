@@ -1,8 +1,8 @@
-import Password from "antd/lib/input/Password";
+// import Password from "antd/lib/input/Password";
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../features/userSlice";
+import { setUser } from "../../../features/userSlice";
 
 function LoginInput({ user }) {
   const dispatch = useDispatch();
