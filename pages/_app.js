@@ -1,8 +1,8 @@
-import NavBar from "../Components/NavBar";
+import NavBar from "../src/Components/NavBar";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import "antd/dist/antd.css";
-import Sidebar from "../Components/Sidebar";
+import Sidebar from "../src/Components/Sidebar";
 import { Provider } from "react-redux";
 import store from "../store";
 

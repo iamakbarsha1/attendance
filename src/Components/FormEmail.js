@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 const baseURL =
-  "https://ams-tnc-hostel.herokuapp.com" || "http://localhost:1000";
+  // "https://ams-tnc-hostel.herokuapp.com" ||
+  "http://localhost:1000";
 
 function FormEmail() {
   const [name, setName] = useState("");
@@ -30,13 +31,13 @@ function FormEmail() {
     }
   };
 
-  const SendHandler = (e) => {
+  const sendEmailHandler = (e) => {
     e.preventDefault();
     const payload = {
       name,
       msg,
       email,
-      file,
+      // file,
     };
     axios.post(`${baseURL}/api/post/sendEmail`, payload).then((res) => {
       console.log(payload);
@@ -50,31 +51,38 @@ function FormEmail() {
   return (
     <main>
       <div>FormEmail</div>
-      <h1>akbar.430happy@gmail.com</h1>
-      <form>
-        <input
-          type={"text"}
-          placeholder={"Name"}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-        <input
-          type={"text"}
-          placeholder={"message"}
-          onChange={(e) => {
-            setMsg(e.target.value);
-          }}
-        />
-        <input
-          type={"email"}
-          placeholder={"email"}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <input type={"file"} placeholder={"file"} onChange={saveFile} />
-        <button onClick={SendHandler}>Send</button>
+      <h1 className="text-4xl">akbar.430happy@gmail.com</h1>
+      <form onSubmit={sendEmailHandler} className="flex flex-col bg-purple-800">
+        <div className="">
+          <input
+            type={"text"}
+            placeholder={"Name"}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <input
+            type={"email"}
+            placeholder={"email"}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <input
+            type={"text"}
+            placeholder={"message"}
+            onChange={(e) => {
+              setMsg(e.target.value);
+            }}
+          />
+        </div>
+        {/* <input type={"file"} placeholder={"file"} onChange={saveFile} /> */}
+        {/* <button onClick={SendHandler}>Send</button> */}
+        <button>Send</button>
       </form>
     </main>
   );

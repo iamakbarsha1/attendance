@@ -4,8 +4,9 @@ import {
   decrement,
   increament,
   increamentByAmount,
-} from "../features/counterSlice";
-
+} from "../../features/counterSlice";
+// features\counterSlice.js
+// E:\AkbarSha Personal\Developer\BUILDS\attendance\features\counterSlice.js
 function Counter() {
   const count = useSelector((state) => state.Counter.value);
   const dispatch = useDispatch();

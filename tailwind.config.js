@@ -1,8 +1,13 @@
 module.exports = {
-  purge: ["./Components/**/*.{js,jsx}", "./public/index.html"],
+  purge: [
+    "./src/Components/**/*.{js,jsx}",
+    "./public/index.html",
+    "./pages/**/*.{js,jsx}",
+    "./styles/**/*.{css}",
+  ],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
+    "./src/Components/**/*.{js,ts,jsx,tsx}",
     "./node_modules/flowbite/**/*.js",
   ],
   theme: {

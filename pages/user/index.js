@@ -19,7 +19,7 @@ import Typography from "@mui/material/Typography";
 import View from "../view";
 import Link from "next/link";
 import SingleUser from "./section/SingleUser";
-import Counter from "../../Components/Counter";
+import Counter from "../../src/Components/Counter";
 // import "flowbite";
 // import baseURL from "../../Helpers/Globals";
 const baseURL =

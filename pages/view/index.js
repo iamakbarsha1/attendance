@@ -2,7 +2,7 @@ import React from "react";
 import SingleUser from "../user/section/SingleUser";
 import { useRouter } from "next/router";
 import { withRouter } from "next/router";
-import FormEmail from "../../Components/FormEmail";
+import FormEmail from "../../src/Components/FormEmail";
 
 // function View({ selectedUserData, setSelectedUserData }) {
 function View() {
