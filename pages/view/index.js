@@ -7,22 +7,13 @@ import FormEmail from "../../src/Components/FormEmail";
 // function View({ selectedUserData, setSelectedUserData }) {
 function View() {
   // console.log(selectedUserData);
-  // https://github.com/vercel/next.js/tree/canary/examples/using-router
-  // https://github.com/vercel/next.js/tree/canary/examples/using-router
-  // https://github.com/vercel/next.js/tree/canary/examples/using-router
-  // https://github.com/vercel/next.js/tree/canary/examples/using-router
-  // https://github.com/vercel/next.js/tree/canary/examples/using-router
-  // https://github.com/vercel/next.js/tree/canary/examples/using-router
-  // https://github.com/vercel/next.js/tree/canary/examples/using-router
-  // https://github.com/vercel/next.js/tree/canary/examples/using-router
-  // https://github.com/vercel/next.js/tree/canary/examples/using-router
 
   // https://github.com/vercel/next.js/tree/canary/examples/using-router
   // https://github.com/vercel/next.js/tree/canary/examples/using-router
-  // https://github.com/vercel/next.js/tree/canary/examples/using-router
+
   const router = useRouter();
   // const { fullName } = router.query;
-  console.log("Router.query", router.query);
+  // console.log("Router.query", router.query);
   // if (!selectedUserData) {
   //   return null;
   // }

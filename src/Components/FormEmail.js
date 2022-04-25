@@ -13,46 +13,86 @@ function FormEmail() {
 
   const saveFile = (e) => {
     setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
-  };
-  console.log(file);
-  console.log(fileName);
-
-  const uploadFile = async (e) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    try {
-      // const res = await axios.post("http://localhost:3000/upload", formData);
-      const res = await axios.post(`${baseURL}/api/post/sendEmail`, formData);
-      console.log(res);
-    } catch (ex) {
-      console.log(ex);
-    }
+    // setFileName(e.target.files[0].name);
   };
 
-  const sendEmailHandler = (e) => {
+  // const uploadDataWithFile = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+
+  //   formData.append("Name", name);
+  //   formData.append("Email", email);
+  //   formData.append("Msg", msg);
+  //   formData.append("file", file);
+  //   formData.append("fileName", fileName);
+  //   try {
+  //     // const res = await axios.post("http://localhost:3000/upload", formData);
+  //     const res = await axios.post(`${baseURL}/api/post/sendEmail`, formData);
+  //     console.log(res);
+  //   } catch (ex) {
+  //     console.log(ex);
+  //   }
+  // };
+
+  const uploadDataWithFile = (e) => {
     e.preventDefault();
-    const payload = {
+    // const formData = new FormData();
+
+    // formData.append("Name", name);
+    // formData.append("Email", email);
+    // formData.append("Msg", msg);
+    // formData.append("file", file);
+    // formData.append("fileName", fileName);
+    const formData = {
       name,
       msg,
       email,
-      // file,
+      file,
     };
-    axios.post(`${baseURL}/api/post/sendEmail`, payload).then((res) => {
-      console.log(payload);
-      console.log("Server Received Payload Details");
-      // setName("");
-      // setMsg("");
-      // setEmail("")
-      // setFile();
-    });
+    axios
+      .post(`${baseURL}/api/post/sendDataWithFile`, formData)
+      .then((res) => {
+        console.log(formData);
+        console.log("Server Received Payload Details");
+        setName("");
+        setMsg("");
+        setEmail("");
+        setFile();
+      })
+      .catch((err) => {
+        console.log("Internal Server Error - sendEmailHandler", err);
+      });
   };
+  // const sendEmailHandler = (e) => {
+  //   e.preventDefault();
+  //   const payload = {
+  //     name,
+  //     msg,
+  //     email,
+  //     file,
+  //   };
+  //   axios
+  //     .post(`${baseURL}/api/post/sendEmail`, payload)
+  //     .then((res) => {
+  //       console.log(payload);
+  //       console.log("Server Received Payload Details");
+  //       setName("");
+  //       setMsg("");
+  //       setEmail("");
+  //       setFile();
+  //     })
+  //     .catch((err) => {
+  //       console.log("Internal Server Error - sendEmailHandler", err);
+  //     });
+  // };
   return (
     <main>
       <div>FormEmail</div>
       <h1 className="text-4xl">akbar.430happy@gmail.com</h1>
-      <form onSubmit={sendEmailHandler} className="flex flex-col bg-purple-800">
+      <form
+        onSubmit={uploadDataWithFile}
+        className="flex flex-col bg-purple-800"
+      >
         <div className="">
           <input
             type={"text"}
@@ -80,7 +120,11 @@ function FormEmail() {
             }}
           />
         </div>
-        {/* <input type={"file"} placeholder={"file"} onChange={saveFile} /> */}
+        <input
+          type={"file"}
+          placeholder={"file"}
+          onChange={(e) => setFile(e.target.files[0])}
+        />
         {/* <button onClick={SendHandler}>Send</button> */}
         <button>Send</button>
       </form>
