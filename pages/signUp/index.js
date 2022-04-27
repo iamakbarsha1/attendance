@@ -42,11 +42,7 @@ function Create() {
   //     // roomNo: roomNo,
   //   };
 
-  return (
-    <div>
-      <FormInput />
-    </div>
-  );
+  return <div>{/* <FormInput /> */}</div>;
 }
 
 export default Create;

@@ -20,12 +20,12 @@ import View from "../view";
 import Link from "next/link";
 import SingleUser from "./section/SingleUser";
 import Counter from "../../src/Components/Counter";
-import AddStudent from "../../src/Components/AddStudent";
+import AddStudent from "../user/section/AddStudent";
 // import "flowbite";
 // import baseURL from "../../Helpers/Globals";
 import { baseURL } from "../../src/Helpers/Globals";
 
-function User() {
+function User(props) {
   const is770pxBelow = useMediaQuery("(max-width:770px)");
   const is430pxBelow = useMediaQuery("(max-width:430px)");
   const is380pxBelow = useMediaQuery("(max-width:380px)");
@@ -124,6 +124,42 @@ function User() {
   //   console.log(id);
   //   // localStorage.setItem("User - ID", id);
   // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const payload = {
+      // [e.target.name]: e.target.value,
+      fullName: fullName,
+      regNo: regNo,
+      roomNo: roomNo,
+      dept: dept,
+      email: email,
+      // phoneNo: phoneNo,
+      // roomNo: roomNo,
+    };
+    axios
+      .post(`${baseURL}/api/post/add-user`, payload)
+
+      .then((res) => {
+        console.log(payload);
+        console.log("Data has been sent SUCCESSfully - handleSubmit", res);
+
+        setFullName("");
+        setRegNo("");
+        setRoomNo("");
+        setDept("");
+        setEmail("");
+        setUseEffect(!triggerUseEffect);
+        notification.success({
+          message: "Submitted Succesfully",
+          description: "Saved Successfully in Database",
+          placement: "topRight",
+        });
+      })
+      .catch((err) => {
+        console.log("Internal Server Error - handleSubmit", err);
+      });
+  };
+
   const deleteUser = (id) => {
     axios.delete(`${baseURL}/api/delete/all-user/${id}`).then((res) => {
       console.log(`Item deleted with id is ${id}`);
@@ -171,11 +207,14 @@ function User() {
       .then((res) => {
         // console.log(res.data.data);
         setAllRooms(res.data.data);
+        console.log("All rooms received - Success");
+        setUseEffect(true);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [triggerUseEffect]);
+
   // get All Users
   useEffect(() => {
     axios
@@ -183,7 +222,7 @@ function User() {
       .then((res) => {
         // const data = res;
         setUsers(res.data.data.reverse());
-        console.log("Data has been received", res.data.data);
+        console.log("All Users has been received", res.data.data);
         setUseEffect(true);
       })
       .catch((err) => {
@@ -207,7 +246,126 @@ function User() {
           <FiEdit3 className="swap-off fill-current w-10 h-10" />
         </label> */}
 
-        <AddStudent />
+        {/* <AddStudent
+          handleSubmit={handleSubmit}
+          useEffectGetAllUsers={useEffectGetAllUsers}
+        /> */}
+        <div>
+          <div
+            onClick={handleOpen}
+            className="border-[1px] p-1 lg:text-lg font-medium flex cursor-pointer text-purple-700 border-purple-700 rounded-md"
+          >
+            <div className="flex items-center justify-center">
+              <BiPlus className="h-6 w-6 md:h-5 md:w-5 lg:h-6 lg:h-6" />
+            </div>
+            <div className="flex items-center">Add Student</div>
+          </div>
+          <Modal
+            keepMounted
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="keep-mounted-modal-title"
+            aria-describedby="keep-mounted-modal-description"
+          >
+            <Box sx={style} className="relative">
+              <section>
+                <div>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    {/* <button onClick={openNotify}>Notify</button> */}
+                    <div
+                      onClick={handleClose}
+                      className="absolute top-3 right-3 rounded-full hover:bg-purple-700 "
+                    >
+                      <MdClose className="h-7 w-7 text-purple-700 hover:text-white p-1" />
+                    </div>
+                    <div className="space-y-3">
+                      <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                        Full Name
+                      </label>
+                      <input
+                        required
+                        value={fullName}
+                        name={"fullName"}
+                        type={"text"}
+                        placeholder={"Ex: Akbar Sha S"}
+                        onChange={(e) => setFullName(e.target.value)}
+                        className="rounded-md w-full focus:border-purple-700 "
+                      />
+                    </div>
+                    <div className="space-y-3">
+                      <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                        Register Number
+                      </label>
+                      <input
+                        value={regNo}
+                        name={"regNo"}
+                        type={"text"}
+                        placeholder={"Ex: 1913181033035"}
+                        onChange={(e) => setRegNo(e.target.value)}
+                        className="rounded-md w-full focus:border-purple-700 "
+                      />
+                    </div>
+                    <div className="block md:flex md:items-center md:justify-between space-y-3 md:space-y-0 md:space-x-3">
+                      <div className="space-y-3 flex-grow">
+                        <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                          Room Number
+                        </label>
+                        <br></br>
+                        <select
+                          value={roomNo}
+                          onChange={(e) => setRoomNo(e.target.value)}
+                          className="rounded-md w-full focus:border-purple-700 "
+                        >
+                          <option selected>
+                            -- Please Select a Room Number --
+                          </option>
+                          {allRooms.sort().map((room, index) => (
+                            <option value={room.roomNo} key={room._id}>
+                              {room.roomNo}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="space-y-3">
+                        <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                          Department
+                        </label>
+                        <input
+                          name={"dept"}
+                          value={dept}
+                          type="text"
+                          placeholder={"Ex: Department of BCA"}
+                          onChange={(e) => setDept(e.target.value)}
+                          className="rounded-md w-full focus:border-purple-700 "
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                        Email
+                      </label>
+                      <input
+                        name={"email"}
+                        value={email}
+                        type="text"
+                        placeholder={"Ex: akbarsha@gmail.com"}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="rounded-md w-full focus:border-purple-700 "
+                      />
+                    </div>
+                    <button
+                      onClick={handleClose}
+                      id="submit"
+                      className="w-full px-2 py-3 space-y-4 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
+                    >
+                      Submit
+                    </button>
+                  </form>
+                </div>
+              </section>
+            </Box>
+          </Modal>
+        </div>
       </section>
       <section
         // style={{ height: "calc(100vh - 56px)" }}
