@@ -101,7 +101,7 @@ function AddStudent({ handleSubmit, useEffectGetAllUsers }) {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/api/get/rooms`)
+      .get(`/api/get/rooms`)
       .then((res) => {
         // console.log(res.data.data);
         setAllRooms(res.data.data);

@@ -5,6 +5,12 @@ import "antd/dist/antd.css";
 import Sidebar from "../src/Components/Sidebar";
 import { Provider } from "react-redux";
 import store from "../store";
+import axios from "axios";
+
+const BaseURL = "http://localhost:1000";
+const CloudURL = "";
+
+axios.defaults.baseURL = BaseURL;
 
 function MyApp({ Component, pageProps }) {
   return (

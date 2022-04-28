@@ -137,7 +137,7 @@ function User(props) {
       // roomNo: roomNo,
     };
     axios
-      .post(`${baseURL}/api/post/add-user`, payload)
+      .post(`/api/post/add-user`, payload)
 
       .then((res) => {
         console.log(payload);
@@ -161,7 +161,7 @@ function User(props) {
   };
 
   const deleteUser = (id) => {
-    axios.delete(`${baseURL}/api/delete/all-user/${id}`).then((res) => {
+    axios.delete(`/api/delete/all-user/${id}`).then((res) => {
       console.log(`Item deleted with id is ${id}`);
       notification.success({
         message: "Deleted Successfully",
@@ -175,7 +175,7 @@ function User(props) {
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
-      .put(`${baseURL}/api/update/all-users`, {
+      .put(`/api/update/all-users`, {
         id: selectedUserData._id,
         updatedData: selectedUserData,
       })
@@ -203,7 +203,7 @@ function User(props) {
   // get All Rooms
   useEffect(() => {
     axios
-      .get(`${baseURL}/api/get/rooms`)
+      .get(`/api/get/rooms`)
       .then((res) => {
         // console.log(res.data.data);
         setAllRooms(res.data.data);
@@ -218,7 +218,7 @@ function User(props) {
   // get All Users
   useEffect(() => {
     axios
-      .get(`${baseURL}/api/get/all-users`)
+      .get(`/api/get/all-users`)
       .then((res) => {
         // const data = res;
         setUsers(res.data.data.reverse());

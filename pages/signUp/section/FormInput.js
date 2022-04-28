@@ -76,7 +76,7 @@ export default function FormInput() {
       // roomNo: roomNo,
     };
     axios
-      .post(`${baseURL}/api/post/add-user`, payload)
+      .post(`/api/post/add-user`, payload)
 
       .then((res) => {
         console.log(payload);
@@ -108,7 +108,7 @@ export default function FormInput() {
     e.preventDefault();
 
     axios
-      .put(`${baseURL}/api/update/all-users`, {
+      .put(`/api/update/all-users`, {
         id: selectedUserData._id,
         updatedData: selectedUserData,
       })
@@ -137,7 +137,7 @@ export default function FormInput() {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/api/get/all-users`)
+      .get(`/api/get/all-users`)
       .then((res) => {
         setUsers(res.data.data);
         console.log("Data has been received");
@@ -149,7 +149,7 @@ export default function FormInput() {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/api/get/rooms`)
+      .get(`/api/get/rooms`)
       .then((res) => {
         // console.log(res.data.data);
         setAllRooms(res.data.data);

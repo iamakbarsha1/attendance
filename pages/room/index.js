@@ -83,7 +83,7 @@ function Room() {
   const deleteRoom = (id) => {
     console.log("selected Room ID", id);
     axios
-      .delete(`${baseURL}/api/delete/rooms/${id}`)
+      .delete(`/api/delete/rooms/${id}`)
       .then((res) => {
         console.log("Result", res);
         notification.success({
@@ -101,7 +101,7 @@ function Room() {
   const UpdateRoomHandler = (e) => {
     e.preventDefault();
     axios
-      .put(`${baseURL}/api/update/rooms`, {
+      .put(`/api/update/rooms`, {
         id: selectedRooms._id,
         updatedData: selectedRooms,
       })
@@ -133,7 +133,7 @@ function Room() {
   //     roomNo: roomNo,
   //   };
   //   axios
-  //     .post(`${baseURL}/api/post/rooms`, payload)
+  //     .post(`/api/post/rooms`, payload)
   //     .then((res) => {
   //       //   console.log(res);
   //       setRoomNo("");
@@ -156,7 +156,7 @@ function Room() {
   // get AllRooms from DB via Axios
   useEffect(() => {
     axios
-      .get(`${baseURL}/api/get/rooms`)
+      .get(`/api/get/rooms`)
       .then((res) => {
         console.log(`Room Data has been received from DB via Axios HTTPs`);
         // console.log(res.data.data);

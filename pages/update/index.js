@@ -53,7 +53,7 @@ function Update({ setSelectedUserData }) {
   };
   const handleUpdate = () => {
     axios
-      .put(`${baseURL}/api/update/all-users/:id`, {
+      .put(`/api/update/all-users/:id`, {
         fullName,
         regNo,
         dept,
