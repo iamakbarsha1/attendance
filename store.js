@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import CounterReducer from "./features/counterSlice";
-import UserReducer from "./features/userSlice";
+
+import counterReducer from "./src/features/counterSlice";
+import userReducer from "./src/features/userSlice";
+import studentReducer from "./src/features/studentSlice";
 
 export default configureStore({
   reducer: {
-    Counter: CounterReducer,
-    User: UserReducer,
+    counter: counterReducer,
+    user: userReducer,
+    student: studentReducer,
   },
 });

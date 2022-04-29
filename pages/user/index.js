@@ -50,6 +50,7 @@ function User(props) {
   const [triggerUseEffect, setUseEffect] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isUpdateModal, setIsUpdateModal] = useState(false);
+  const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -239,7 +240,7 @@ function User(props) {
         <div className="font-medium text-xl lg:text-2xl text-purple-700">
           Students
         </div>
-        {/* <Counter /> */}
+        <Counter />
         {/* <label className="swap swap-rotate">
           <input className="hidden" type="checkbox" />
           <BiPlus className="swap-on fill-current w-10 h-10" />
@@ -574,8 +575,16 @@ function User(props) {
                     </div>
                     <div className="">
                       <button onClick={() => deleteUser(user._id)}>
+                        {/* <button onClick={() => setDeleteConfirmModal(true)}> */}
                         <AiOutlineDelete className="text-red-600" />
                       </button>
+                      {/* {deleteConfirmModal ? (
+                        <section className="absolute ">
+                          <div>deleteConfirmModal</div>
+                        </section>
+                      ) : (
+                        <section></section>
+                      )} */}
                     </div>
                   </div>
                 </section>

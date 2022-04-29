@@ -3,15 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   decrement,
   increament,
-  increamentByAmount,
-} from "../../features/counterSlice";
+  // increamentByAmount,
+} from "../features/counterSlice";
 // features\counterSlice.js
 // E:\AkbarSha Personal\Developer\BUILDS\attendance\features\counterSlice.js
 function Counter() {
-  const count = useSelector((state) => state.Counter.value);
+  const count = useSelector((state) => state.counter.value);
   const dispatch = useDispatch();
 
-  const [incrementAmount, setIncrementAmount] = useState("2");
+  // const [incrementAmount, setIncrementAmount] = useState("2");
 
   return (
     <main>
