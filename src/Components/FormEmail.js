@@ -91,9 +91,9 @@ function FormEmail() {
 
   return (
     <main className="flex items-center justify-center">
-      <section>
+      <section className="flex-row items-center justify-center">
         <div>
-          <h1 className="w-96 flex items-center justify-center text-4xl">
+          <h1 className="w-72 flex items-center justify-center text-4xl">
             Contact
           </h1>
         </div>

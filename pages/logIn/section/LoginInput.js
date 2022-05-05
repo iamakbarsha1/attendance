@@ -1,11 +1,12 @@
 // import Password from "antd/lib/input/Password";
 import React from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 // import { setUser } from "../../../features/userSlice";
 
-function LoginInput({ user }) {
-  const dispatch = useDispatch();
+// function LoginInput({ user }) {
+function LoginInput() {
+  // const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -36,12 +37,12 @@ function LoginInput({ user }) {
       </div>
       {/* <button onClick={() => dispatch(setUser({ email, password }))}> */}
       <button>Login</button>
-      {user && (
-        <section>
-          <div>{user.email}</div>
-          <div>{user.password}</div>
-        </section>
-      )}
+      {/* {user && ( */}
+      <section>
+        <div>{user.email}</div>
+        <div>{user.password}</div>
+      </section>
+      {/* )} */}
     </div>
   );
 }

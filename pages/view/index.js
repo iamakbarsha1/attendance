@@ -20,7 +20,7 @@ function View() {
   return (
     <main
       className="flex items-center justify-center"
-      style={{ height: "calc(100vh - 10.6vh)", width: "calc(100vw - 5rem)" }}
+      style={{ height: "calc(100vh - 10.6vh)", width: "calc(100vw - 0rem)" }}
     >
       {/* <div>View</div>
       <div>{router.query.regNo}</div>

@@ -30,8 +30,8 @@ function NavBar() {
         <div
           className={
             showNavbar
-              ? `absolute -top-4 -left-3 flex-row h-screen z-50 w-60 p-4 bg-white transition-all ease-in-out duration-500`
-              : `absolute -top-4 -left-80 flex-row h-screen z-50 w-60 p-4 bg-white transition-all ease-in-out duration-500`
+              ? `absolute -top-2 md:-top-4 -left-3 flex-row h-screen z-50 w-60 p-4 bg-white transition-all ease-in-out duration-500`
+              : `absolute -top-2 md:-top-4 -left-80 flex-row h-screen z-50 w-60 p-4 bg-white transition-all ease-in-out duration-500`
             //   `absolute top-0 -left-0 w-72 bg-white -translate-x-80`
             // : `absolute top-0 -left-80 w-72 bg-white translate-x-0`
           }
@@ -94,14 +94,14 @@ function NavBar() {
                   <li className="">Students</li>
                 </div>
               </div>
-              <li
+              {/* <li
                 onClick={() => {
                   router.push("/");
                   setShowNavbar(false);
                 }}
               >
                 Add
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
