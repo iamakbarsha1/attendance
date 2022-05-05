@@ -1,8 +1,13 @@
 import React from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { BiDoorOpen } from "react-icons/bi";
+import {
+  BiDotsVerticalRounded,
+  BiHomeAlt,
+  BiEnvelopeOpen,
+} from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
-import { BiDotsVerticalRounded, BiHomeAlt } from "react-icons/bi";
+import { IoPeopleOutline } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 import { Menu } from "antd";
 import { useState } from "react";
@@ -17,7 +22,7 @@ function NavBar() {
 
   return (
     <div
-      className="sticky top-0 z-50 flex justify-between px-3 py-2 md:py-4 bg-white shadow-md"
+      className="sticky top-0 z-50 flex justify-between px-3 md:px-7 py-2 md:py-4 bg-white shadow-md"
       // onBlur={() => setShowNavbar(!showNavbar)}
     >
       {/* Left */}
@@ -30,8 +35,8 @@ function NavBar() {
         <div
           className={
             showNavbar
-              ? `absolute -top-2 md:-top-4 -left-3 flex-row h-screen z-50 w-60 p-4 bg-white transition-all ease-in-out duration-500`
-              : `absolute -top-2 md:-top-4 -left-80 flex-row h-screen z-50 w-60 p-4 bg-white transition-all ease-in-out duration-500`
+              ? `absolute -top-2 md:-top-4 -left-3 flex-row h-screen z-50 w-60 p-4 bg-white shadow-lg transition-all ease-in-out duration-500`
+              : `absolute -top-2 md:-top-4 -left-80 flex-row h-screen z-50 w-60 p-4 bg-white shadow-lg transition-all ease-in-out duration-500`
             //   `absolute top-0 -left-0 w-72 bg-white -translate-x-80`
             // : `absolute top-0 -left-80 w-72 bg-white translate-x-0`
           }
@@ -72,14 +77,6 @@ function NavBar() {
                   <li className="">Rooms</li>
                 </div>
               </div>
-              {/* <div className="flex group">
-                <div className="flex items-center justify-center p-2 group-hover:bg-purple-700 group-hover:rounded-l-lg group-hover:text-white">
-                  <BiDoorOpen className="h-6 w-6" />
-                </div>
-                <div className="flex-grow p-2 group-hover:bg-purple-700 group-hover:rounded-r-lg group-hover:text-white">
-                  <li className="">Students</li>
-                </div>
-              </div> */}
               <div
                 onClick={() => {
                   router.push("/user");
@@ -88,12 +85,27 @@ function NavBar() {
                 className="flex group cursor-pointer"
               >
                 <div className="flex items-center justify-center p-2 group-hover:bg-purple-700 group-hover:rounded-l-lg group-hover:text-white">
-                  <BiDoorOpen className="h-6 w-6" />
+                  <BsPeople className="h-5 w-5 stroke-[0.4] " />
                 </div>
                 <div className="flex-grow p-2 group-hover:bg-purple-700 group-hover:rounded-r-lg group-hover:text-white">
                   <li className="">Students</li>
                 </div>
               </div>
+              <div
+                onClick={() => {
+                  router.push("/contact");
+                  setShowNavbar(false);
+                }}
+                className="flex group cursor-pointer"
+              >
+                <div className="flex items-center justify-center p-2 group-hover:bg-purple-700 group-hover:rounded-l-lg group-hover:text-white">
+                  <BiEnvelopeOpen className="h-5 w-5" />
+                </div>
+                <div className="flex-grow p-2 group-hover:bg-purple-700 group-hover:rounded-r-lg group-hover:text-white">
+                  <li className="">Contact</li>
+                </div>
+              </div>
+
               {/* <li
                 onClick={() => {
                   router.push("/");
@@ -134,22 +146,6 @@ function NavBar() {
               >
                 <div onClick={() => router.push("/user")}>Students</div>
               </div>
-              {/* <section className="lg:group-hover:block lg:hidden lg:z-50 lg:absolute lg:top-16 lg:right-[16.5rem] lg:px-3 lg:py-2 lg:space-y-2 lg:rounded-lg lg:transform lg:transition-all lg:ease-in-out lg:duration-700  lg:bg-gray-200">
-                <div
-                  onClick={() => router.push("/user")}
-                  className="lg:hover:bg-purple-700 lg:hover:text-white lg:p-2 lg:rounded-lg lg:cursor-pointer"
-                >
-                  Student List
-                </div>
-                <div
-                  // onClick={() => setAddSudentModalVisible(true)}
-                  className="lg:hover:bg-purple-700 lg:hover:text-white lg:p-2 lg:rounded-lg lg:cursor-pointer"
-                >
-                  Add Student
-                </div>
-              </section> */}
-              {/* <section className="lg:hidden group-hover:block lg:absolute lg:top-16 bg-slate-400"> */}
-              {/* {showStudentsMenu ? "" : ""} */}
             </div>
 
             <div
@@ -160,7 +156,7 @@ function NavBar() {
             </div>
             {/* <div className="lg:ml-10 cursor-pointer">Reports</div> */}
             <div
-              onClick={() => router.push("/view")}
+              onClick={() => router.push("/contact")}
               className="lg:ml-10 cursor-pointer"
             >
               Contact
@@ -169,9 +165,9 @@ function NavBar() {
           </div>
         </div>
         {/* Right */}
-        <div className="hidden lg:block lg:ml-20">
+        {/* <div className="hidden lg:block lg:ml-20">
           <BiDotsVerticalRounded className="h-6 w-6" />
-        </div>
+        </div> */}
       </div>
     </div>
   );

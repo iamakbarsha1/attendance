@@ -10,6 +10,8 @@ import { MdClose } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
 import AddRooms from "../../src/Components/AddRooms";
+import notfound from "../../public/notfound.jpg";
+import Image from "next/image";
 
 function Room() {
   const is770pxBelow = useMediaQuery("(max-width:770px)");
@@ -19,6 +21,7 @@ function Room() {
 
   const [roomNo, setRoomNo] = useState("");
   const [allRooms, setAllRooms] = useState([]);
+  const [roomErrorMsg, setRoomErrorMsg] = useState("Rooms Not Found");
 
   const [selectedRooms, setSelectedRooms] = useState([]);
 
@@ -177,95 +180,125 @@ function Room() {
         </div>
         <AddRooms />
       </section>
-      <section className="flex flex-wrap ">
-        {allRooms.map((room) => {
-          return (
-            <main className="relative group" key={room._id}>
-              <section key={room._id} className="flex-wrap">
-                <button
-                  className="hidden absolute top-16 right-10 group-hover:block"
-                  onClick={() => {
-                    setSelectedRooms(room);
-                    // router.push("/update");
-                    // setIsModalVisible(true);
-                    // handleUpdateModalOpen();
-                  }}
-                >
-                  <FiEdit3
-                    onClick={handleUpdateModalOpen}
-                    className="h-4 w-4 text-green-400"
-                  />
-                </button>
-                <Modal
-                  keepMounted
-                  open={isUpdateModal}
-                  onClose={handleUpdateModalClose}
-                  aria-labelledby="keep-mounted-modal-title"
-                  aria-describedby="keep-mounted-modal-description"
-                >
-                  <Box sx={styleUpdateModal} className="relative">
-                    <section>
-                      <form onSubmit={UpdateRoomHandler} className="space-y-3">
-                        <div
-                          onClick={handleUpdateModalClose}
-                          className="absolute top-3 right-3 rounded-full hover:bg-purple-700 "
+      {allRooms.length > 0 ? (
+        <section className="mt-2 flex flex-wrap ">
+          {allRooms.map((room) => {
+            return (
+              <main className="relative group" key={room._id}>
+                <section key={room._id} className="flex-wrap">
+                  <button
+                    className="hidden absolute top-16 right-10 group-hover:block"
+                    onClick={() => {
+                      setSelectedRooms(room);
+                      // router.push("/update");
+                      // setIsModalVisible(true);
+                      // handleUpdateModalOpen();
+                    }}
+                  >
+                    <FiEdit3
+                      onClick={handleUpdateModalOpen}
+                      className="h-4 w-4 text-green-400"
+                    />
+                  </button>
+                  <Modal
+                    keepMounted
+                    open={isUpdateModal}
+                    onClose={handleUpdateModalClose}
+                    aria-labelledby="keep-mounted-modal-title"
+                    aria-describedby="keep-mounted-modal-description"
+                  >
+                    <Box sx={styleUpdateModal} className="relative">
+                      <section>
+                        <form
+                          onSubmit={UpdateRoomHandler}
+                          className="space-y-3"
                         >
-                          <MdClose className="h-7 w-7 text-purple-700 hover:text-white p-1" />
-                        </div>
-                        <div className="space-y-3">
-                          <label className="text-purple-700 font-medium md:text-base lg:text-lg">
-                            Room number
-                          </label>
-                          <input
-                            required
-                            value={
-                              selectedRooms !== null ? selectedRooms.roomNo : ""
-                            }
-                            name={"fullName"}
-                            type={"number"}
-                            placeholder={"Ex: 70"}
-                            onChange={(e) =>
-                              setSelectedRooms({
-                                ...selectedRooms,
-                                roomNo: e.target.value,
-                              })
-                            }
-                            className="rounded-md w-full focus:border-purple-700"
-                          />
-                        </div>
-                        <div>
-                          <button
-                            // onClick={handleClose}
-                            onClick={() => {
-                              setIsUpdateModal(false);
-                            }}
-                            id="submit"
-                            className="w-full px-2 py-3 space-y-4 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
+                          <div
+                            onClick={handleUpdateModalClose}
+                            className="absolute top-3 right-3 rounded-full hover:bg-purple-700 "
                           >
-                            Update Room
-                          </button>
-                        </div>
-                      </form>
-                    </section>
-                  </Box>
-                </Modal>
-                <button
-                  className="hidden absolute top-4 right-10 group-hover:block"
-                  onClick={() => deleteRoom(room._id)}
-                >
-                  <AiOutlineDelete className="h-4 w-4 text-red-600" />
-                </button>
-                <div className="w-20 h-20 bg-slate-100 m-2 rounded-full flex items-center justify-center text-base font-semibold">
-                  {room.roomNo}
-                </div>
-                {/* <div>{room._id}</div>
+                            <MdClose className="h-7 w-7 text-purple-700 hover:text-white p-1" />
+                          </div>
+                          <div className="space-y-3">
+                            <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                              Room number
+                            </label>
+                            <input
+                              required
+                              value={
+                                selectedRooms !== null
+                                  ? selectedRooms.roomNo
+                                  : ""
+                              }
+                              name={"fullName"}
+                              type={"number"}
+                              placeholder={"Ex: 70"}
+                              onChange={(e) =>
+                                setSelectedRooms({
+                                  ...selectedRooms,
+                                  roomNo: e.target.value,
+                                })
+                              }
+                              className="rounded-md w-full focus:border-purple-700"
+                            />
+                          </div>
+                          <div>
+                            <button
+                              // onClick={handleClose}
+                              onClick={() => {
+                                setIsUpdateModal(false);
+                              }}
+                              id="submit"
+                              className="w-full px-2 py-3 space-y-4 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
+                            >
+                              Update Room
+                            </button>
+                          </div>
+                        </form>
+                      </section>
+                    </Box>
+                  </Modal>
+                  <button
+                    className="hidden absolute top-4 right-10 group-hover:block"
+                    onClick={() => deleteRoom(room._id)}
+                  >
+                    <AiOutlineDelete className="h-4 w-4 text-red-600" />
+                  </button>
+                  <div className="w-20 h-20 bg-slate-100 m-2 rounded-full flex items-center justify-center text-base font-semibold">
+                    {room.roomNo}
+                  </div>
+                  {/* <div>{room._id}</div>
               <div>{room.createdAt}</div>
               <div>{room.updatedAt}</div> */}
-              </section>
-            </main>
-          );
-        })}
-      </section>
+                </section>
+              </main>
+            );
+          })}
+        </section>
+      ) : (
+        <section className="mt-8 md:mt-10 flex-row items-center justify-center">
+          <div className="flex items-center justify-center">
+            <Image
+              src={notfound}
+              width={400}
+              height={400}
+              className="flex items-center justify-center"
+            />
+          </div>
+          <div className="flex items-center justify-center text-2xl mr-3">
+            {roomErrorMsg}
+          </div>
+
+          {/* <div>
+              <div className="border-[1px] p-1 lg:text-lg font-medium flex text-purple-700 border-purple-700 rounded-md">
+                <div className="flex items-center justify-center">
+                  <BiPlus className="h-6 w-6 md:h-5 md:w-5 lg:h-6 lg:h-6" />
+                </div>
+                <div className="flex items-center">Add Student</div>
+              </div>
+            </div> */}
+        </section>
+      )}
     </div>
   );
 }

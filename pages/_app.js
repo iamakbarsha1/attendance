@@ -8,7 +8,8 @@ import store from "../store";
 import axios from "axios";
 
 const BaseURL = "http://localhost:4000";
-const CloudURL = "https://git.heroku.com/ams-tnc-hostel.git";
+const CloudURL =
+  "http://node-cors-proxy-mercy.herokuapp.com/https://git.heroku.com/ams-tnc-hostel.git";
 
 axios.defaults.baseURL = CloudURL;
 

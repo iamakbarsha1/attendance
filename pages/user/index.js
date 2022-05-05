@@ -16,14 +16,15 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import View from "../view";
+import Contact from "../contact";
 import Link from "next/link";
 import SingleUser from "./section/SingleUser";
-import Counter from "../../src/Components/Counter";
 import AddStudent from "../user/section/AddStudent";
 // import "flowbite";
 // import baseURL from "../../Helpers/Globals";
 import { baseURL } from "../../src/Helpers/Globals";
+import notfound from "../../public/notfound.jpg";
+import Image from "next/image";
 
 function User(props) {
   const is770pxBelow = useMediaQuery("(max-width:770px)");
@@ -42,9 +43,7 @@ function User(props) {
   const [users, setUsers] = useState([]);
 
   const [allRooms, setAllRooms] = useState([]);
-  const [errorMsg, setErrorMsg] = useState(
-    "Add Students by Clicking Add Student Button"
-  );
+  const [errorMsg, setErrorMsg] = useState("Students Not Found");
 
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [triggerUseEffect, setUseEffect] = useState(false);
@@ -240,7 +239,6 @@ function User(props) {
         <div className="font-medium text-xl lg:text-2xl text-purple-700">
           Students
         </div>
-        <Counter />
         {/* <label className="swap swap-rotate">
           <input className="hidden" type="checkbox" />
           <BiPlus className="swap-on fill-current w-10 h-10" />
@@ -375,9 +373,9 @@ function User(props) {
         {/* <View /> */}
         {/* Single User View */}
         {/* <SingleUser selectedUserData={selectedUserData} /> */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {users.length > 0 ? (
-            users.map((user, index) => (
+        {users.length > 0 ? (
+          <div className="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {users.map((user, index) => (
               <div
                 key={user._id}
                 onClick={() => {
@@ -589,11 +587,32 @@ function User(props) {
                   </div>
                 </section>
               </div>
-            ))
-          ) : (
-            <div>{errorMsg}</div>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <section className="mt-8 md:mt-10 flex-row items-center justify-center">
+            <div className="flex items-center justify-center">
+              <Image
+                src={notfound}
+                width={400}
+                height={400}
+                className="flex items-center justify-center"
+              />
+            </div>
+            <div className="flex items-center justify-center text-2xl mr-3">
+              {errorMsg}
+            </div>
+
+            {/* <div>
+              <div className="border-[1px] p-1 lg:text-lg font-medium flex text-purple-700 border-purple-700 rounded-md">
+                <div className="flex items-center justify-center">
+                  <BiPlus className="h-6 w-6 md:h-5 md:w-5 lg:h-6 lg:h-6" />
+                </div>
+                <div className="flex items-center">Add Student</div>
+              </div>
+            </div> */}
+          </section>
+        )}
       </section>
     </div>
   );

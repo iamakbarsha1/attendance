@@ -5,7 +5,7 @@ import { withRouter } from "next/router";
 import FormEmail from "../../src/Components/FormEmail";
 
 // function View({ selectedUserData, setSelectedUserData }) {
-function View() {
+function Contact() {
   // console.log(selectedUserData);
 
   // https://github.com/vercel/next.js/tree/canary/examples/using-router
@@ -44,4 +44,4 @@ function View() {
 //   };
 // }
 
-export default withRouter(View);
+export default withRouter(Contact);
