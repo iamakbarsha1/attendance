@@ -13,7 +13,7 @@ const CloudURL =
 //ams-tnc-hostel.herokuapp.com/
 // https://attendance-backend-tnc.herokuapp.com/
 
-axios.defaults.baseURL = CloudURL;
+axios.defaults.baseURL = BaseURL;
 
 function MyApp({ Component, pageProps }) {
   return (
