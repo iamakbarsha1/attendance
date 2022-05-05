@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
-import FormInput from "./section/FormInput";
+// import FormInput from "./section/FormInput";
 
 function Create() {
   // const [formData, setFormData] = useState({
