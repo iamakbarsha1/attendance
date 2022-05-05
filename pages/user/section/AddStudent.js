@@ -94,10 +94,10 @@ function AddStudent({ handleSubmit, useEffectGetAllUsers }) {
   //       // });
   //     });
   // };
-  useEffect(() => {
-    useEffectGetAllUsers();
-    setUseEffect(true);
-  }, [triggerUseEffect]);
+  // useEffect(() => {
+  //   useEffectGetAllUsers();
+  //   setUseEffect(true);
+  // }, [triggerUseEffect]);
 
   useEffect(() => {
     axios
