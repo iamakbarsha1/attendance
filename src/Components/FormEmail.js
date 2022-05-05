@@ -72,13 +72,13 @@ function FormEmail() {
       email,
     };
     axios
-      .post(`${baseURL}/api/post/sendEmail`, payload)
+      .post(`/api/post/sendEmail`, payload)
       .then((res) => {
         console.log(payload);
         console.log("Server Received Payload Details");
         notification.success({
-          key: "Error",
-          message: "Email Sent",
+          message: "Email Sent Successfully",
+          description: "Thankyou for your response! ❤️",
         });
         setName("");
         setMsg("");
@@ -90,49 +90,66 @@ function FormEmail() {
   };
 
   return (
-    <main>
-      <div>FormEmail</div>
-      <h1 className="text-4xl">akbar.430happy@gmail.com</h1>
-      <form onSubmit={sendEmailHandler} className="flex flex-col bg-purple-800">
-        <div className="">
-          <input
-            type={"text"}
-            placeholder={"Name"}
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
+    <main className="flex items-center justify-center">
+      <section>
+        <div>
+          <h1 className="w-96 flex items-center justify-center text-4xl">
+            Contact
+          </h1>
         </div>
         <div>
-          <input
-            type={"email"}
-            placeholder={"email"}
-            value={email}
-            // pattern={"[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2, 4}$"}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-        </div>
-        <div>
-          <input
-            type={"text"}
-            placeholder={"message"}
-            value={msg}
-            onChange={(e) => {
-              setMsg(e.target.value);
-            }}
-          />
-        </div>
-        {/* <input
+          <form onSubmit={sendEmailHandler} className="flex flex-col ">
+            <div className="pb-5 pt-5">
+              <input
+                type={"text"}
+                placeholder={"Name"}
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+                className="w-full rounded-lg focus:border-purple-700 outline-none p-3"
+              />
+            </div>
+            <div className="pb-5">
+              <input
+                type={"email"}
+                placeholder={"email"}
+                value={email}
+                // pattern={"[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2, 4}$"}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                className="w-full rounded-lg focus:border-purple-700 outline-none p-3"
+              />
+            </div>
+            <div className="pb-5">
+              <input
+                type={"text"}
+                placeholder={"message"}
+                value={msg}
+                onChange={(e) => {
+                  setMsg(e.target.value);
+                }}
+                className="w-full rounded-lg focus:border-purple-700 outline-none p-3"
+              />
+            </div>
+            {/* <input
           type={"file"}
           placeholder={"file"}
           onChange={(e) => setFile(e.target.files[0])}
         /> */}
-        {/* <button onClick={SendHandler}>Send</button> */}
-        <button>Send</button>
-      </form>
+            {/* <button onClick={SendHandler}>Send</button> */}
+            <div>
+              <button
+                id="submit"
+                className="w-full p-3 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
+              >
+                Send
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
     </main>
   );
 }

@@ -158,14 +158,14 @@ function NavBar() {
             >
               Rooms
             </div>
-            <div className="lg:ml-10 cursor-pointer">Reports</div>
+            {/* <div className="lg:ml-10 cursor-pointer">Reports</div> */}
             <div
               onClick={() => router.push("/view")}
               className="lg:ml-10 cursor-pointer"
             >
-              FormEmail
+              Contact
             </div>
-            <div className="lg:ml-10 cursor-pointer">Signup</div>
+            {/* <div className="lg:ml-10 cursor-pointer">Signup</div> */}
           </div>
         </div>
         {/* Right */}

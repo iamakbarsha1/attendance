@@ -7,10 +7,10 @@ import { Provider } from "react-redux";
 import store from "../store";
 import axios from "axios";
 
-const BaseURL = "http://localhost:1000";
-const CloudURL = "";
+const BaseURL = "http://localhost:4000";
+const CloudURL = "https://git.heroku.com/ams-tnc-hostel.git";
 
-axios.defaults.baseURL = BaseURL;
+axios.defaults.baseURL = CloudURL;
 
 function MyApp({ Component, pageProps }) {
   return (

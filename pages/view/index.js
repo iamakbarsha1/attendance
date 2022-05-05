@@ -18,8 +18,11 @@ function View() {
   //   return null;
   // }
   return (
-    <main>
-      <div>View</div>
+    <main
+      className="flex items-center justify-center"
+      style={{ height: "calc(100vh - 10.6vh)", width: "calc(100vw - 5rem)" }}
+    >
+      {/* <div>View</div>
       <div>{router.query.regNo}</div>
       <div>{router.query.fullName}</div>
       <div></div>
@@ -27,7 +30,7 @@ function View() {
       <SingleUser
       // selectedUserData={selectedUserData}
       // setSelectedUserData={setSelectedUserData}
-      />
+      /> */}
       <FormEmail />
     </main>
   );
