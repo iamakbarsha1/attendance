@@ -39,8 +39,8 @@ function LoginInput() {
       <button>Login</button>
       {/* {user && ( */}
       <section>
-        <div>{user.email}</div>
-        <div>{user.password}</div>
+        {/* <div>{user.email}</div>
+        <div>{user.password}</div> */}
       </section>
       {/* )} */}
     </div>
