@@ -9,9 +9,10 @@ import axios from "axios";
 
 const BaseURL = "http://localhost:4000";
 const CloudURL =
-  "https://node-cors-proxy-mercy.herokuapp.com/https://git.heroku.com/ams-tnc-hostel.git";
+  "https://node-cors-proxy-mercy.herokuapp.com/https://ams-tnc-hostel.herokuapp.com/";
+//ams-tnc-hostel.herokuapp.com/
 
-axios.defaults.baseURL = CloudURL;
+https: axios.defaults.baseURL = CloudURL;
 
 function MyApp({ Component, pageProps }) {
   return (
