@@ -53,7 +53,7 @@ function AddRooms() {
       roomNo: roomNo,
     };
     axios
-      .post(`${baseURL}/api/post/rooms`, payload)
+      .post(`/api/post/rooms`, payload)
       .then((res) => {
         //   console.log(res);
         setRoomNo("");
@@ -63,6 +63,7 @@ function AddRooms() {
         });
         setUseEffect(!triggerUseEffect);
         setOpen(false);
+        GetUsers();
       })
       .catch((err) => {
         //   console.log(err);
@@ -72,6 +73,27 @@ function AddRooms() {
         });
       });
   };
+
+  // get AllRooms from DB via Axios
+  // get All Rooms
+  function GetUsers() {
+    axios
+      .get(`/api/get/rooms`)
+      .then((res) => {
+        setAllRooms(res.data.data);
+        console.log(`Room Data has been received from DB via Axios HTTPs`);
+        // console.log(res.data.data);
+        setUseEffect(true);
+      })
+      .catch((err) => {
+        console.log("Error while getting Rooms Data", err);
+      });
+  }
+
+  useEffect(() => {
+    GetUsers();
+  }, [triggerUseEffect]);
+
   return (
     <div>
       <div
@@ -116,7 +138,7 @@ function AddRooms() {
               </div>
               <div>
                 <button
-                  // onClick={handleClose}
+                  onClick={GetUsers}
                   id="submit"
                   className="w-full px-2 py-3 space-y-4 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
                 >

@@ -129,45 +129,68 @@ function Room() {
       });
   };
 
-  // const SubmitRoomHandler = (e) => {
-  //   e.preventDefault();
+  const SubmitRoomHandler = (e) => {
+    e.preventDefault();
 
-  //   const payload = {
-  //     roomNo: roomNo,
-  //   };
-  //   axios
-  //     .post(`/api/post/rooms`, payload)
-  //     .then((res) => {
-  //       //   console.log(res);
-  //       setRoomNo("");
-  //       notification.success({
-  //         message: "Success",
-  //         description: "Room added Successfully",
-  //       });
-  //       setUseEffect(!triggerUseEffect);
-  //       setOpen(false);
-  //     })
-  //     .catch((err) => {
-  //       //   console.log(err);
-  //       notification.error({
-  //         message: "Error",
-  //         description: "Room added Error",
-  //       });
-  //     });
-  // };
+    const payload = {
+      roomNo: roomNo,
+    };
+    axios
+      .post(`/api/post/rooms`, payload)
+      .then((res) => {
+        //   console.log(res);
+        setRoomNo("");
+        notification.success({
+          message: "Success",
+          description: "Room added Successfully",
+        });
+        setUseEffect(!triggerUseEffect);
+        setOpen(false);
+        GetUsers();
+      })
+      .catch((err) => {
+        //   console.log(err);
+        notification.error({
+          message: "Error",
+          description: "Room added Error",
+        });
+      });
+  };
 
   // get AllRooms from DB via Axios
-  useEffect(() => {
+  // get All Rooms
+  function GetUsers() {
     axios
       .get(`/api/get/rooms`)
       .then((res) => {
+        setAllRooms(res.data.data);
         console.log(`Room Data has been received from DB via Axios HTTPs`);
         // console.log(res.data.data);
-        setAllRooms(res.data.data);
+        setUseEffect(true);
       })
       .catch((err) => {
         console.log("Error while getting Rooms Data", err);
       });
+  }
+
+  // get AllRooms from DB via Axios
+  // get All Rooms
+  useEffect(() => {
+    axios
+      .get(`/api/get/rooms`)
+      .then((res) => {
+        setAllRooms(res.data.data);
+        console.log(`Room Data has been received from DB via Axios HTTPs`);
+        // console.log(res.data.data);
+        setUseEffect(true);
+      })
+      .catch((err) => {
+        console.log("Error while getting Rooms Data", err);
+      });
+  }, [triggerUseEffect]);
+
+  useEffect(() => {
+    GetUsers();
   }, [triggerUseEffect]);
 
   // console.log(selectedRooms);
@@ -178,7 +201,61 @@ function Room() {
         <div className="font-medium text-xl lg:text-2xl text-purple-700">
           Rooms
         </div>
-        <AddRooms />
+        <div>
+          <div
+            onClick={handleOpen}
+            className="border-[1px] p-1 lg:text-lg font-medium flex cursor-pointer text-purple-700 border-purple-700 rounded-md"
+          >
+            <div className="flex items-center justify-center">
+              <BiPlus className="h-6 w-6" />
+            </div>
+            <div className="flex items-center">Add Rooms</div>
+          </div>
+
+          <Modal
+            keepMounted
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="keep-mounted-modal-title"
+            aria-describedby="keep-mounted-modal-description"
+          >
+            <Box sx={style} className="relative">
+              <section>
+                <form onSubmit={SubmitRoomHandler} className="space-y-3">
+                  <div
+                    onClick={handleClose}
+                    className="absolute top-3 right-3 rounded-full hover:bg-purple-700 "
+                  >
+                    <MdClose className="h-7 w-7 text-purple-700 hover:text-white p-1" />
+                  </div>
+                  <div className="space-y-3">
+                    <label className="text-purple-700 font-medium md:text-base lg:text-lg">
+                      Room number
+                    </label>
+                    <input
+                      required
+                      value={roomNo}
+                      name={"fullName"}
+                      type={"number"}
+                      placeholder={"Ex: 70"}
+                      onChange={(e) => setRoomNo(e.target.value)}
+                      className="rounded-md w-full focus:border-purple-700"
+                    />
+                  </div>
+                  <div>
+                    <button
+                      onClick={GetUsers}
+                      id="submit"
+                      className="w-full px-2 py-3 space-y-4 rounded-md border-[1px] text-white bg-purple-700 font-medium focus:bg-white focus:border-green-400 focus:text-green-400"
+                    >
+                      Add Room
+                    </button>
+                  </div>
+                </form>
+              </section>
+            </Box>
+          </Modal>
+        </div>
       </section>
       {allRooms.length > 0 ? (
         <section className="mt-2 flex flex-wrap ">
