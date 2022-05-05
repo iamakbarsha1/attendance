@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../../features/userSlice";
+// import { setUser } from "../../../features/userSlice";
 
 function LoginInput({ user }) {
   const dispatch = useDispatch();
@@ -34,9 +34,8 @@ function LoginInput({ user }) {
           className="border-[2px] bg-slate-300"
         />
       </div>
-      <button onClick={() => dispatch(setUser({ email, password }))}>
-        Login
-      </button>
+      {/* <button onClick={() => dispatch(setUser({ email, password }))}> */}
+      <button>Login</button>
       {user && (
         <section>
           <div>{user.email}</div>
