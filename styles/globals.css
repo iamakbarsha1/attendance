@@ -21,3 +21,15 @@ a {
 .css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop {
   background-color: rgba(0, 0, 0, 0.1) !important
 }
+.css-pdct74-MuiTablePagination-selectLabel {
+  margin-bottom: 0;
+}
+.css-levciy-MuiTablePagination-displayedRows {
+  margin-bottom: 0;
+}
+
+/* @layer components {
+  .hello {
+    @apply m-0
+  }
+} */

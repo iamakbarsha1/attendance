@@ -12,8 +12,14 @@ import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
 import AddRooms from "../../src/Components/AddRooms";
 import notfound from "../../public/notfound.jpg";
 import Image from "next/image";
+import { setRoom } from "../../src/redux/features/roomSlice";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 function Room() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const is770pxBelow = useMediaQuery("(max-width:770px)");
   const is430pxBelow = useMediaQuery("(max-width:430px)");
   const is380pxBelow = useMediaQuery("(max-width:380px)");
@@ -196,7 +202,7 @@ function Room() {
   // console.log(selectedRooms);
 
   return (
-    <div className="px-4 py-2 w-screen">
+    <main className="px-4 py-2 w-screen">
       <section className=" flex items-center justify-between">
         <div className="font-medium text-xl lg:text-2xl text-purple-700">
           Rooms
@@ -258,7 +264,7 @@ function Room() {
         </div>
       </section>
       {allRooms.length > 0 ? (
-        <section className="mt-2 flex flex-wrap ">
+        <section className="mt-2 flex flex-wrap">
           {allRooms.map((room) => {
             return (
               <main className="relative group" key={room._id}>
@@ -266,7 +272,7 @@ function Room() {
                   <button
                     className="hidden absolute top-16 right-10 group-hover:block"
                     onClick={() => {
-                      setSelectedRooms(room);
+                      // setSelectedRooms(room);
                       // router.push("/update");
                       // setIsModalVisible(true);
                       // handleUpdateModalOpen();
@@ -341,7 +347,13 @@ function Room() {
                   >
                     <AiOutlineDelete className="h-4 w-4 text-red-600" />
                   </button>
-                  <div className="w-20 h-20 bg-slate-100 m-2 rounded-full flex items-center justify-center text-base font-semibold">
+                  <div
+                    className="w-20 h-20 bg-slate-100 m-2 rounded-full flex items-center justify-center text-base font-semibold"
+                    onClick={() => {
+                      dispatch(setRoom(room));
+                      router.push("/roomView");
+                    }}
+                  >
                     {room.roomNo}
                   </div>
                   {/* <div>{room._id}</div>
@@ -376,7 +388,7 @@ function Room() {
             </div> */}
         </section>
       )}
-    </div>
+    </main>
   );
 }
 
