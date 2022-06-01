@@ -16,9 +16,13 @@ import { setRoom } from "../../src/redux/features/roomSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
+import jwt_decode from "jwt-decode";
+
 function Room() {
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const [loggedin, setLoggedin] = useState(false);
 
   const is770pxBelow = useMediaQuery("(max-width:770px)");
   const is430pxBelow = useMediaQuery("(max-width:430px)");
@@ -162,6 +166,21 @@ function Room() {
         });
       });
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const user = jwt_decode(token);
+
+      console.log(user);
+      setLoggedin(true);
+      if (!user) {
+        localStorage.removeItem("token");
+        setLoggedin(false);
+        router.push("/logIn");
+      }
+    }
+  }, [router]);
 
   // get AllRooms from DB via Axios
   // get All Rooms

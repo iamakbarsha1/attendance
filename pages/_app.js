@@ -13,7 +13,7 @@ const CloudURL =
 //ams-tnc-hostel.herokuapp.com/
 // https://attendance-backend-tnc.herokuapp.com/
 
-axios.defaults.baseURL = CloudURL;
+axios.defaults.baseURL = BaseURL;
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -21,10 +21,8 @@ function MyApp({ Component, pageProps }) {
       <div>
         <NavBar />
         <div className="flex md:mx-10 my-2">
-          {/* <Sidebar /> */}
-          <Component {...pageProps} />
+          <Component {...pageProps} className="" />
         </div>
-        {/* <script src="../path/to/flowbite/dist/flowbite.js"></script> */}
       </div>
     </Provider>
   );

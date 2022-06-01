@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
+
+import TokenReducer from "../redux/features/tokenSlice";
 import StudentReducer from "../redux/features/studentSlice";
 import RoomReducer from "../redux/features/roomSlice";
 
 export default configureStore({
   reducer: {
-    student: StudentReducer,
-    room: RoomReducer,
+    Token: TokenReducer,
+    Student: StudentReducer,
+    Room: RoomReducer,
   },
 });

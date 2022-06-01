@@ -5,7 +5,7 @@ import { BiPlus } from "react-icons/bi";
 import StudentTable from "./section/StudentTable";
 
 const RoomView = () => {
-  const room = useSelector((state) => state.room.value);
+  const room = useSelector((state) => state.Room.value);
 
   const [takeAttendance, setTakeAttendance] = useState(false);
 

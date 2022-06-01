@@ -1,18 +1,16 @@
 import React from "react";
-import LoginInput from "./section/LoginInput";
-// import FormInput from "../signUp/section/FormInput";
-// import { useSelector } from "react-redux";
+import RegisterInput from "./section/registerInput";
 
-function Login() {
+function Register() {
   // const user = useSelector((state) => state.User.value);
   return (
     <main
       className="flex items-center justify-center"
       style={{ height: "calc(100vh - 10.6vh)", width: "calc(100vw - 0rem)" }}
     >
-      <LoginInput />
+      <RegisterInput />
     </main>
   );
 }
 
-export default Login;
+export default Register;

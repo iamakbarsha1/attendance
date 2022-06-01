@@ -5,7 +5,29 @@ import styles from "../styles/Home.module.css";
 import Create from "./signUp/index";
 // import "flowbite";
 
+import jwt_decode from "jwt-decode";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
 export default function Home() {
+  const [loggedin, setLoggedin] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const user = jwt_decode(token);
+
+      console.log(user);
+      setLoggedin(true);
+      if (!user) {
+        localStorage.removeItem("token");
+        setLoggedin(false);
+        router.push("/logIn");
+      }
+    }
+  }, [router]);
+
   return (
     <div className={""}>
       <Head>
@@ -14,16 +36,20 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        style={{ height: "calc(100vh - 10.6vh)", width: "calc(100vw - 5rem)" }}
-        className="flex items-center justify-center"
+        style={{
+          height: "calc(100vh - 10.6vh)",
+          width: "calc(100vw - 5rem)",
+        }}
+        className="ml-14 md:ml-0 flex items-center justify-center w-full"
       >
-        <section>
+        <section className="">
           <div className="flex-row items-center justify-center">
             <div className="flex items-center justify-center text-4xl text-purple-700 font-bold">
-              Welcome !
+              Welcome !{/* {user.name} */}
             </div>
-            <div className="flex items-center justify-center">to Home page</div>
-            {/* <Create /> */}
+            <div className="flex items-center justify-center md:text-3xl lg:text-5xl">
+              Attendance Management System
+            </div>
           </div>
         </section>
       </main>

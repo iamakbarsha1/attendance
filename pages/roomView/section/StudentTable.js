@@ -187,7 +187,16 @@ const StudentTable = ({
   setTakeAttendance,
   onTakeAttendanceClick,
 }) => {
-  const room = useSelector((state) => state.room.value);
+  const room = useSelector((state) => state.Room.value);
+
+  const [status, setStatus] = useState("Present");
+  const [selectedOption, setSelectedOption] = useState();
+
+  const onValueChange = (event) => {
+    setStatus(event.target.value);
+    setSelectedOption(event.target.value);
+    // console.log(selectedOption);
+  };
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -210,29 +219,32 @@ const StudentTable = ({
       percentage: "73%",
     },
     {
-      name: "Akbar Sha",
-      regNo: "3035",
+      name: "Abu Fazil",
+      regNo: "3005",
       dept: "BCA",
-      email: "iamakbarsha1@gmail.com",
-      percentage: "73%",
+      email: "abufazil@gmail.com",
+      percentage: "74%",
     },
     {
-      name: "Akbar Sha",
-      regNo: "3035",
+      name: "Abzal Basha",
+      regNo: "3006",
       dept: "BCA",
-      email: "iamakbarsha1@gmail.com",
-      percentage: "73%",
+      email: "abzalbasha@gmail.com",
+      percentage: "72%",
     },
     {
-      name: "Akbar Sha",
-      regNo: "3035",
+      name: "Ashick",
+      regNo: "3043",
       dept: "BCA",
-      email: "iamakbarsha1@gmail.com",
-      percentage: "73%",
+      email: "ashick@gmail.com",
+      percentage: "80%",
     },
   ];
 
   const classes = useStyles();
+
+  console.log(status);
+  // console.log(selectedOption);
 
   return (
     <main className="w-full mt-5">
@@ -317,11 +329,7 @@ const StudentTable = ({
                     page * rowsPerPage + rowsPerPage
                   ).map((student, index) => {
                     return (
-                      <TableRow
-                        hover
-                        key={student.units}
-                        className={classes.Rows}
-                      >
+                      <TableRow hover key={index} className={classes.Rows}>
                         <TableCell className="sno" align={"center"}>
                           {index + 1}
                         </TableCell>
@@ -345,13 +353,27 @@ const StudentTable = ({
                           <TableCell align={"center"} className="action">
                             <section className="present_absent">
                               <div className="present">
-                                <label for="present">Present</label>
+                                <label htmlFor="present">Present</label>
                               </div>
-                              <input type={"radio"} id={"present"} />
+                              <input
+                                id={"present"}
+                                type={"radio"}
+                                value={"Present"}
+                                checked={selectedOption === "Present"}
+                                onChange={onValueChange}
+                                className="hidden"
+                              />
                               <div className="absent">
-                                <label for="absent">Absent</label>
+                                <label htmlFor="absent">Absent</label>
                               </div>
-                              <input type={"radio"} id={"absent"} />
+                              <input
+                                id={"absent"}
+                                type={"radio"}
+                                value={"Absent"}
+                                checked={selectedOption === "Absent"}
+                                onChange={onValueChange}
+                                className="hidden"
+                              />
                             </section>
                             {/* <div className="editIconCon">
                               <HiOutlinePencil className="editIcon" />

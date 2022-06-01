@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 // import { useRouter } from "next/dist/client/router";
 import { useMediaQuery, makeStyles } from "@mui/material";
 
@@ -25,13 +24,20 @@ import AddStudent from "../user/section/AddStudent";
 import { baseURL } from "../../src/Helpers/Globals";
 import notfound from "../../public/notfound.jpg";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+
+import jwt_decode from "jwt-decode";
 
 function User(props) {
   const is770pxBelow = useMediaQuery("(max-width:770px)");
   const is430pxBelow = useMediaQuery("(max-width:430px)");
   const is380pxBelow = useMediaQuery("(max-width:380px)");
   const is320pxBelow = useMediaQuery("(max-width:320px)");
+  const dispatch = useDispatch();
   const router = useRouter();
+
+  const [loggedin, setLoggedin] = useState(false);
 
   const [fullName, setFullName] = useState("");
   const [regNo, setRegNo] = useState("");
@@ -200,6 +206,21 @@ function User(props) {
       });
     // console.log(selectedUserData);
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const user = jwt_decode(token);
+      // console.log(user);
+      setLoggedin(true);
+      if (!user) {
+        localStorage.removeItem("token");
+        setLoggedin(false);
+        router.push("/logIn");
+      }
+    }
+  }, [router]);
+
   // get All Rooms
   useEffect(() => {
     axios
